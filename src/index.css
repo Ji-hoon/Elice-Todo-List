@@ -1,11 +1,24 @@
-:root {
+/* 
+ *
+ * css 지정하는 방법
+ * 1. 클래스명(.)셀렉터 사용
+ * 2. id(#)셀렉터 사용
+ * 3. 가상 pseudo(:) 셀렉터 사용
+ * 
+ */
+:root { /* :root - 최상위 객체에 정의하는 CSS  */
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  /* browser는 왼쪽부터 오른쪽까지 이동하면서 사용 가능한 폰트를 렌더링한다. 
+   * Inter에서 숫자 폰트가 없다면, 그 다음 폰트들 중에서 가장 먼저 선언된 폰트 중에서 찾는다.
+   */
   line-height: 1.5;
+  /*
+   * 단위가 명시 안되어 있다면 상대값을 의미한다.
+   * 예를들어 font-size가 18px이라면, line-height 1.5는 27px로 렌더링된다.
+   */
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -25,11 +38,33 @@ a:hover {
 body {
   margin: 0;
   display: flex;
+  /* 
+   * flex와 grid 둘 다 사용 가능함 
+   * flex에서 아래를 대체해서 place-items: center를 사용할 수 있다.
+   * justify-content: center;
+   * align-items: center;
+   */
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
 }
-
+/*
+ * 단위
+ * - 절대적 크기 단위
+ *   px
+ *     - 크기가 고정된 경우 사용 -> 다양한 화면 크기와 해상도에 따라서 동일한 크기를 갖게 한다.
+ *     - 화면 상의 실제 픽셀 수를 기반으로 한다
+ * - 상대적 크기 단위
+ *   [em]
+ *   - 부모 요소의 font-size를 기준으로 상대적인 크기를 설정합니다.
+ *   - ex) font-size: 3.2em; -> font-size: (16*3.2)px
+ *   -> font-size를 설정할 수 있는 기능 -> fontSize: small, medium, large
+ *   -> 최상위 부모에 font-size: small ? "12px" : medium ? "16px" : "20px";
+ *   [rem]
+ *   - 최상위 요소를 기준으로 상대적인 크기를 설정
+ *   [%]
+ *   [vw, vh]
+ */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
@@ -42,7 +77,6 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -54,7 +88,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
+@media (color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
@@ -64,5 +98,17 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+@media (color-scheme: dark) {
+  :root {
+    color: rgba(255, 255, 255, 0.87);
+    background-color: #242424;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #1a1a1a;
   }
 }
