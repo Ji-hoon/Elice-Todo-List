@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import '../../../index.css';
 
-import { FiCheck, FiPlus, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from "react-icons/fi";
+import { FiCheck, FiPlus, FiLoader, FiSmile, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from "react-icons/fi";
 import todoItemsDummy from '../../../assets/dummy/todoItems.ts';
 import format from 'date-fns/format';
 import addDays from 'date-fns/addDays';
@@ -148,8 +148,10 @@ export default function Main() {
           )}
 
           {(todoItems.length == 0 && inputMode.type !== "add") && (
-            <div style={{height:"calc(100vh - 7em)", display:"flex", alignItems:"center", userSelect: "none"}}>
-                오늘 해야 할 일이 없네요!
+            <div style={{height:"calc(100vh - 7em)", display:"flex", alignItems:"center", userSelect: "none",
+            flexDirection: "column", justifyContent: "center", gap: 24, color: "var(--color-gray-0)",fontSize:"1.2em"}}>
+                <FiSmile size="48" color=""/>
+                <div>오늘은 할 일이 없네요!</div>
             </div>
           )}
 

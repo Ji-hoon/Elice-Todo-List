@@ -100,6 +100,10 @@ export default function TodoItem({
                 <div style={{display:"flex", gap: 8}}>
                 <button onClick={onResetInputMode} style={{border: "2px solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>취소</button>
                 <button onClick={() => {
+                    if(addInputValue == "") {
+                        alert("1글자 이상 입력해주세요.");
+                        return;
+                    }
                     onAddTodoItem();
                     onResetInputMode();}}
                 style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>저장</button>
