@@ -4,9 +4,7 @@ import { FiCheck, FiPlus, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from 
 import styled from "styled-components";
 import '../index.css';
 
-
 import useTodoItems from "./pages/Main/hooks/useTodoItems.ts"
-
 
 import { TodoItemType, InputMode } from "../types/index.ts";
 import Spacing from "./Spacing.tsx";
@@ -29,6 +27,7 @@ export default function TodoItem({itemType, itemInfo, onResetInputMode}:TodoItem
 
     function handleChangeAddInputValue(event:React.ChangeEvent<HTMLInputElement>) {
         setAddInputValue(event.target.value);
+        //console.log(addInputValue);
     }
     
     //console.log(itemInfo);
@@ -48,7 +47,9 @@ export default function TodoItem({itemType, itemInfo, onResetInputMode}:TodoItem
                 <Spacing size={8}/>
                 <div style={{display:"flex", gap: 8}}>
                 <button onClick={onResetInputMode} style={{border: "2px solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>취소</button>
-                <button onClick={onAddTodoItem}
+                <button onClick={() => {
+                    onAddTodoItem();
+                    onResetInputMode();}}
                 style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>저장</button>
                 </div>
             </>)}

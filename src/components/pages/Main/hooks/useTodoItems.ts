@@ -8,7 +8,7 @@ import todoItemsDummy from '../../../../assets/dummy/todoItems.ts';
 // url에 넘겨서 사용하는 방법 (location 객체)
 
 
-export default function useTodoItems(currentDate) {
+export default function useTodoItems() {
     const [todoItems, setTodoItems] = useState<TodoItem[]>(todoItemsDummy);
     const [addInputValue, setAddInputValue] = useState("");
     
@@ -43,14 +43,14 @@ export default function useTodoItems(currentDate) {
         setTodoItems(newTodo);
       }
     
-      useEffect( () => {
-        const dateString = format(currentDate, 'yyyy-MM-dd'); // date type을 스트링으로 바꿔서 비교해야 함
-        //console.log(dateString);
-        const todayTodo = todoItems.filter( (item) => item.createdAt === dateString);
-        //console.log(todayTodo);
-        setTodoItems(todayTodo);
-        //console.log(todoItems);
-      }, [currentDate]);
+    //   useEffect( () => {
+    //     const dateString = format(currentDate, 'yyyy-MM-dd'); // date type을 스트링으로 바꿔서 비교해야 함
+    //     //console.log(dateString);
+    //     const todayTodo = todoItems.filter( (item) => item.createdAt === dateString);
+    //     //console.log(todayTodo);
+    //     setTodoItems(todayTodo);
+    //     //console.log(todoItems);
+    //   }, [currentDate]);
 
     return { 
         onAddTodoItem : handleAddTodoItem,

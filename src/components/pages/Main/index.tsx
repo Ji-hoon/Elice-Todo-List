@@ -25,7 +25,7 @@ export default function Main() {
   
   const [inputMode, setInputMode] = useState<InputMode>(defaultInputMode);
 
-  const { onAddTodoItem, onToggleDone } = useTodoItems(currentDate);
+  const { onAddTodoItem, onToggleDone } = useTodoItems();
 
   const elementRef = useRef(null);
   //console.log(currentDate);
@@ -87,14 +87,6 @@ export default function Main() {
     }
   };
 
-//   const toggleDone = (id:string) => {
-//     const newTodo = [...todoItems];
-//     const targetItem = newTodo.filter((item) => item.id === id );
-//     //console.log(targetItem);
-//     targetItem[0].isDone = !targetItem[0].isDone;
-//     setTodoItems(newTodo);
-//   }
-
   useEffect( () => {
     const dateString = format(currentDate, 'yyyy-MM-dd'); // date type을 스트링으로 바꿔서 비교해야 함
     //console.log(dateString);
@@ -105,14 +97,15 @@ export default function Main() {
   }, [currentDate]);
 
   return (      
-    <main style={{ maxWidth: 420, height: "100vh", margin: "0 auto",backgroundColor: "#1e1e1e",position:"relative", boxShadow: "0 0 0 1px rgba(255,255,255,0.08)"}}>
+    <main style={{ maxWidth: 420, height: "100vh", margin: "0 auto",backgroundColor: "#1e1e1e",position:"relative",
+     border: "1px solid rgba(255,255,255,0.08)"}}>
       
       <button onClick={() => {
         handleAddMode(); 
         scrollToTop();}}
             style={{borderRadius: 30, backgroundColor: "#CFFF48", top: "calc(100% - 70px)", left: "calc(100% - 70px)", display: "flex", position: "absolute",
             width: 48, height: 48, placeItems: "center",placeContent: "center", cursor:"pointer", border:"none", }}>
-        <FiPlus color="var(--color-black)" size={24}/>
+        <FiPlus color="var(--color-black)" size={30}/>
       </button>
       <section ref={elementRef} 
                style={{overflow:"hidden auto", height: "100%", padding: "0 0 2em", }}>
@@ -145,12 +138,10 @@ export default function Main() {
           {[...todoItems].map( (todo) =>  {
             return (
               <div key={todo.id} style={{padding: "0", width:"100%"}}>
-                
                 {/* {inputMode === "edit" && inputMode.item} */}
                 {inputMode.type!=="edit" &&
                     <TodoItem itemType="default" onResetInputMode={handleResetInputMode} itemInfo={{todo}}/>
                 }
-                
               </div>
               )
             })
@@ -164,14 +155,3 @@ export default function Main() {
     </main>
   )
 }
-
-const Content = styled.div<{isDone:boolean}>`
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow:ellipsis;
-    user-select: none;
-    text-decoration:  ${(props) => (props.isDone ? "line-through" : "none")};
-    color: ${(props) => (props.isDone ? "#999" : "#FFF")};
-`;
