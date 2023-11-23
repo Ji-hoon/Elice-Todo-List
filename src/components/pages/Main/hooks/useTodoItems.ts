@@ -7,6 +7,7 @@ import todoItemsDummy from '../../../../assets/dummy/todoItems.ts';
 // 전역에서 사용 가능한 객체에 currentDate를 사용하는 방법
 // url에 넘겨서 사용하는 방법 (location 객체)
 
+
 export default function useTodoItems(currentDate) {
     const [todoItems, setTodoItems] = useState<TodoItem[]>(todoItemsDummy);
     const [addInputValue, setAddInputValue] = useState("");

@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from 'react';
-// import './App.css';
 import '../../../index.css';
 
 import { FiCheck, FiPlus, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from "react-icons/fi";
@@ -8,23 +7,23 @@ import format from 'date-fns/format';
 import addDays from 'date-fns/addDays';
 import subDays from 'date-fns/subDays';
 
-import Spacing from "../../../components/Spacing.tsx";
-import { InputMode, TodoItem } from "../../../types";
+import { TodoItemType, InputMode } from "../../../types/index.ts";
+import TodoItem from "../../TodoItem.tsx";
 import useTodoItems from "./hooks/useTodoItems.ts"
 import styled from "styled-components";
 
 const defaultInputMode: InputMode = {type: "default"};
+
 const today = format( new Date(), "MM월 dd일");
 
 export default function Main() {
 
   const [currentDate, setCurrentDate] = useState( new Date() );
-  const [todoItems, setTodoItems] = useState<TodoItem[]>([]);
-  const [inputMode, setInputMode] = useState<InputMode>(defaultInputMode);
-  const [addInputValue, setAddInputValue] = useState("");
+  const [todoItems, setTodoItems] = useState<TodoItemType[]>([]);
+//   const [addInputValue, setAddInputValue] = useState("");
   const [editInputValue, setEditInputValue] = useState("");
   
-  
+  const [inputMode, setInputMode] = useState<InputMode>(defaultInputMode);
 
   const { onAddTodoItem, onToggleDone } = useTodoItems(currentDate);
 
@@ -35,7 +34,7 @@ export default function Main() {
     setInputMode({type: "add"});
   }
 
-  function handleEditMode(item:TodoItem) {
+  function handleEditMode(item:TodoItemType) {
     setInputMode({type: "edit", item:item});
   } 
 
@@ -43,9 +42,9 @@ export default function Main() {
     setInputMode(defaultInputMode);
   }
 
-  function handleChangeAddInputValue(event:React.ChangeEvent<HTMLInputElement>) {
-    setAddInputValue(event.target.value);
-  }
+//   function handleChangeAddInputValue(event:React.ChangeEvent<HTMLInputElement>) {
+//     setAddInputValue(event.target.value);
+//   }
 
 //   function handleAddTodoItem() {
 //     // todoItems에 추가하고 인풋모드를 리셋한다.
@@ -104,23 +103,20 @@ export default function Main() {
     setTodoItems(todayTodo);
     //console.log(todoItems);
   }, [currentDate]);
-  
-
-
 
   return (      
-    <main style={{ maxWidth: 420, height: "100vh", margin: "0 auto",backgroundColor: "#1e1e1e",position:"relative", }}>
+    <main style={{ maxWidth: 420, height: "100vh", margin: "0 auto",backgroundColor: "#1e1e1e",position:"relative", boxShadow: "0 0 0 1px rgba(255,255,255,0.08)"}}>
       
       <button onClick={() => {
         handleAddMode(); 
         scrollToTop();}}
-      style={{borderRadius: 30, backgroundColor: "#CFFF48", top: "calc(100% - 70px)", left: "calc(100% - 70px)", display: "flex", position: "absolute",
-        width: 48, height: 48, placeItems: "center",placeContent: "center", cursor:"pointer", border:"none"}}>
+            style={{borderRadius: 30, backgroundColor: "#CFFF48", top: "calc(100% - 70px)", left: "calc(100% - 70px)", display: "flex", position: "absolute",
+            width: 48, height: 48, placeItems: "center",placeContent: "center", cursor:"pointer", border:"none", }}>
         <FiPlus color="var(--color-black)" size={24}/>
       </button>
       <section ref={elementRef} 
                style={{overflow:"hidden auto", height: "100%", padding: "0 0 2em", }}>
-        <header style={{display: "flex", position: "sticky", top:0, backgroundColor: "#1E1E1E", alignItems: "center", padding: 8, boxShadow: "0 1px 0 0 rgba(255,255,255,0.08)"}}>
+        <header style={{display: "flex", position: "sticky", top:0, backgroundColor: "#1E1E1E", alignItems: "center", padding: 8, boxShadow: "0 1px 0 1px rgba(255,255,255,0.08)"}}>
           <div onClick={handleMovePrevDate}
                 style={{padding: 12, cursor:"pointer", display:"flex"}}>
             <FiChevronLeft color="#FFF" size={24}/>
@@ -143,23 +139,7 @@ export default function Main() {
             style={{display:"flex", flexDirection: "column", alignItems:"center",padding: "1em 1em 1em 1.5em"}}>
           
           {inputMode.type === "add" && (
-          <div style={{padding:"0",display:"flex",flexDirection: "column", width:"100%"}} >
-            <input placeholder="할 일을 입력하세요"
-                   type="text"
-                  onChange={(e) => handleChangeAddInputValue(e)}
-                  style={{fontSize: "1em", padding: "8px 0", 
-                    background: "transparent",
-                    border: "none", 
-                    borderBottom: "2px solid #FFF",
-                    outline: "none", color: "#FFF"}}
-            />
-            <Spacing size={8}/>
-            <div style={{display:"flex", gap: 8}}>
-              <button onClick={handleResetInputMode} style={{border: "2px solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>취소</button>
-              <button onClick={onAddTodoItem}
-              style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>저장</button>
-            </div>
-          </div>
+            <TodoItem itemType="add" onResetInputMode={handleResetInputMode} itemInfo={{}}/>
           )}
 
           {[...todoItems].map( (todo) =>  {
@@ -167,24 +147,10 @@ export default function Main() {
               <div key={todo.id} style={{padding: "0", width:"100%"}}>
                 
                 {/* {inputMode === "edit" && inputMode.item} */}
-                {!todo.isDone &&
-                  <div style={{display:'flex', flexDirection: "row", justifyContent:"space-between"}}>
-                    <Content isDone={todo.isDone}>{todo.content}</Content>
-                    <div style={{padding: 12, cursor:"pointer", display:"flex"}}
-                        onClick={()=> onToggleDone(todo.id)}>
-                      <FiCheck size={26}/>
-                    </div>
-                  </div>}
+                {inputMode.type!=="edit" &&
+                    <TodoItem itemType="default" onResetInputMode={handleResetInputMode} itemInfo={{todo}}/>
+                }
                 
-                {todo.isDone &&
-                  <div style={{display:'flex', flexDirection: "row", justifyContent:"space-between"}}>
-                    <Content isDone={todo.isDone}>{todo.content}</Content>
-                    
-                    <div style={{padding: 12, cursor:"pointer", display:"flex"}}
-                        onClick={()=> {onToggleDone(todo.id)}}>
-                      <FiCheck color="#CFFF48" size={26}/>
-                    </div>
-                  </div>}
               </div>
               )
             })
