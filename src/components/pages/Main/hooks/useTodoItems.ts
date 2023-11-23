@@ -47,14 +47,14 @@ export default function useTodoItems(currentDate) {
         setTodoItems(newTodo);
       }
     
-      useEffect( () => {
-        const dateString = format(currentDate, 'yyyy-MM-dd'); // date type을 스트링으로 바꿔서 비교해야 함
-        //console.log(dateString);
-        const todayTodo = todoItemsDummy.filter( (item) => item.createdAt === dateString);
-        //console.log(todayTodo);
-        setTodoItems(todayTodo);
-        //console.log(todoItems);
-      }, [currentDate]);
+    //   useEffect( () => {
+    //     const dateString = format(currentDate, 'yyyy-MM-dd'); // date type을 스트링으로 바꿔서 비교해야 함
+    //     //console.log(dateString);
+    //     const todayTodo = todoItemsDummy.filter( (item) => item.createdAt === dateString);
+    //     //console.log(todayTodo);
+    //     setTodoItems(todayTodo);
+    //     //console.log(todoItems);
+    //   }, [currentDate]);
 
     return { 
         onAddTodoItem : handleAddTodoItem,

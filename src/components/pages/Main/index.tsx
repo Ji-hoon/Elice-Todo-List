@@ -92,14 +92,14 @@ export default function Main() {
 //     setTodoItems(newTodo);
 //   }
 
-//   useEffect( () => {
-//     const dateString = format(currentDate, 'yyyy-MM-dd'); // date type을 스트링으로 바꿔서 비교해야 함
-//     //console.log(dateString);
-//     const todayTodo = todoItemsDummy.filter( (item) => item.createdAt === dateString);
-//     //console.log(todayTodo);
-//     setTodoItems(todayTodo);
-//     //console.log(todoItems);
-//   }, [currentDate]);
+  useEffect( () => {
+    const dateString = format(currentDate, 'yyyy-MM-dd'); // date type을 스트링으로 바꿔서 비교해야 함
+    //console.log(dateString);
+    const todayTodo = todoItemsDummy.filter( (item) => item.createdAt === dateString);
+    //console.log(todayTodo);
+    setTodoItems(todayTodo);
+    //console.log(todoItems);
+  }, [currentDate]);
   
 
 
@@ -148,7 +148,7 @@ export default function Main() {
             <Spacing size={8}/>
             <div style={{display:"flex", gap: 8}}>
               <button onClick={handleResetInputMode} style={{border: "2px solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>취소</button>
-              <button onClick={handleAddTodoItem}
+              <button onClick={onAddTodoItem}
               style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>저장</button>
             </div>
           </div>
@@ -163,7 +163,7 @@ export default function Main() {
                   <div style={{display:'flex', flexDirection: "row", justifyContent:"space-between"}}>
                     <div style={{display: "flex", alignItems: "center", whiteSpace: "nowrap",overflow: "hidden", textOverflow: "ellipsis"}}>{todo.content}</div>
                     <div style={{padding: 12, cursor:"pointer", display:"flex"}}
-                        onClick={()=> toggleDone(todo.id)}>
+                        onClick={()=> onToggleDone(todo.id)}>
                       <FiCheck size={26}/>
                     </div>
                   </div>}
@@ -173,7 +173,7 @@ export default function Main() {
                     <div style={{display: "flex", alignItems: "center", whiteSpace: "nowrap",overflow: "hidden", textOverflow: "ellipsis", textDecoration: "line-through", color: "#999"}}>{todo.content}</div>
                     
                     <div style={{padding: 12, cursor:"pointer", display:"flex"}}
-                        onClick={()=> {toggleDone(todo.id)}}>
+                        onClick={()=> {onToggleDone(todo.id)}}>
                       <FiCheck color="#CFFF48" size={26}/>
                     </div>
                   </div>}
