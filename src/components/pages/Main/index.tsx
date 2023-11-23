@@ -75,6 +75,7 @@ export default function Main() {
     setTodoItems(todayTodo);
   }
 
+  // init
   useEffect( () => {
     const savedData = localStorage.getItem('todoData');
     if (!savedData) {
@@ -85,12 +86,10 @@ export default function Main() {
     setTodoItems(parsedData);
   },[]);
 
-  useEffect( () => {
-    
-  }, [todoItems]);
-
+  // date 변경 hook
   useEffect( () => {
     onRefreshTodo();
+    handleResetInputMode();
   }, [currentDate, ]);
 
 
@@ -118,25 +117,43 @@ export default function Main() {
             style={{display:"flex", flexDirection: "column", alignItems:"center",padding: "1em 1em 1em 1.5em"}}>
           
           {inputMode.type === "add" && (
-            <TodoItem itemType="add" onResetInputMode={handleResetInputMode} onRefreshTodo={onRefreshTodo} itemInfo={{}}/>
+            <TodoItem itemType="add" 
+                      onResetInputMode={handleResetInputMode}
+                      onRefreshTodo={onRefreshTodo} 
+                      itemInfo={{}}
+                      currentDate={currentDate}/>
           )}
 
-          {[...todoItems].map( (todo) =>  {
+          {todoItems.length > 0 && [...todoItems].map( (todo) =>  {
             return (
               <div key={todo.id} style={{padding: "0", width:"100%"}}>
                 {/* {inputMode === "edit" && inputMode.item} */}
                 {inputMode.type!=="edit" &&
-                    <TodoItem itemType="default" onResetInputMode={handleResetInputMode} onRefreshTodo={onRefreshTodo} itemInfo={{todo}}/>
+                    <TodoItem itemType="default" 
+                              onResetInputMode={handleResetInputMode} 
+                              onRefreshTodo={onRefreshTodo} 
+                              itemInfo={{todo}}
+                              currentDate={currentDate}/>
                 }
               </div>
               )
             })
           }
 
-          <div style={{display:"flex", justifyContent:"center", width:"fit-content", margin: "2em 0 0", cursor:"pointer"}}
-              onClick={scrollToTop}>
-            <FiArrowUpCircle color="#505050" size="36"/>
-          </div>
+          {todoItems.length > 0 && (
+            <div style={{display:"flex", justifyContent:"center", width:"fit-content", margin: "2em 0 0", cursor:"pointer"}}
+                 onClick={scrollToTop}>
+                <FiArrowUpCircle color="#505050" size="36"/>
+            </div>
+          )}
+
+          {(todoItems.length == 0 && inputMode.type !== "add") && (
+            <div style={{height:"calc(100vh - 7em)", display:"flex", alignItems:"center", userSelect: "none"}}>
+                오늘 해야 할 일이 없네요!
+            </div>
+          )}
+
+          
 
         </div>
       </section>
