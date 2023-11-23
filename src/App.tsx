@@ -55,14 +55,16 @@ function App() {
   const toggleDone = (id:string) => {
     const newTodo = [...todoItems];
     const targetItem = newTodo.filter((item) => item.id === id );
-    console.log(targetItem);
+    //console.log(targetItem);
     targetItem[0].isDone = !targetItem[0].isDone;
     setTodoItems(newTodo);
   }
   return (      
     <main style={{ maxWidth: 420, height: "100vh", margin: "0 auto",backgroundColor: "#1e1e1e",position:"relative", }}>
       
-      <button onClick={handleAddMode}
+      <button onClick={() => {
+        handleAddMode(); 
+        scrollToTop();}}
       style={{borderRadius: 30, backgroundColor: "#CFFF48", top: "calc(100% - 70px)", left: "calc(100% - 70px)", display: "flex", position: "absolute",
         width: 48, height: 48, placeItems: "center",placeContent: "center", cursor:"pointer", border:"none"}}>
         <FiPlus color="#1E1E1E" size={24}/>
@@ -98,9 +100,9 @@ function App() {
             />
             <Spacing size={8}/>
             <div style={{display:"flex", gap: 8}}>
-              <button onClick={handleResetInputMode} style={{border: "2px solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", padding: "5px 12px 4px"}}>취소</button>
+              <button onClick={handleResetInputMode} style={{border: "2px solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>취소</button>
               <button onClick={handleAddTodoItem}
-              style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", padding: "5px 12px 4px"}}>저장</button>
+              style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>저장</button>
             </div>
           </div>
           )}
@@ -123,7 +125,7 @@ function App() {
                     <div style={{display: "flex", alignItems: "center", whiteSpace: "nowrap",overflow: "hidden", textOverflow: "ellipsis", textDecoration: "line-through", color: "#999"}}>{todo.content}</div>
                     
                     <div style={{padding: 12, cursor:"pointer", display:"flex"}}
-                        onClick={()=> toggleDone(todo.id)}>
+                        onClick={()=> {toggleDone(todo.id)}}>
                       <FiCheck color="#CFFF48" size={26}/>
                     </div>
                   </div>}
