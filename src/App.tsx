@@ -17,6 +17,7 @@ function App() {
 
   const [inputMode, setInputMode] = useState<InputMode>(defaultInputMode);
   const [addInputValue, setAddInputValue] = useState("");
+  const [editInputValue, setEditInputValue] = useState("");
   
   const elementRef = useRef(null);
   console.log(currentDate);
@@ -36,7 +37,12 @@ function App() {
   function handleAddTodoItem() {
     // todoItems에 추가하고 인풋모드를 리셋한다.
     const newTodo = [...todoItems];
-    
+    newTodo.push({id: String(newTodo.length+1),
+      content : addInputValue,
+      isDone: false,
+      createdAt : String(new Date()),
+    });
+    setTodoItems(newTodo);
     handleResetInputMode();
   }
 
@@ -46,10 +52,11 @@ function App() {
       element.scrollTo({top:0, behavior:"smooth"});
     }
   };
-  const toggleDone = (id) => {
+  const toggleDone = (id:string) => {
     const newTodo = [...todoItems];
-    const targetTodo = newTodo.filter( (todo) => todo.id === id);
-    targetTodo.isDone = !targetTodo.isDone;
+    const targetItem = newTodo.filter((item) => item.id === id );
+    console.log(targetItem);
+    targetItem[0].isDone = !targetItem[0].isDone;
     setTodoItems(newTodo);
   }
   return (      
@@ -83,7 +90,7 @@ function App() {
             <input placeholder="할 일을 입력하세요"
                    type="text"
                   onChange={(e) => handleChangeAddInputValue(e)}
-                  style={{fontSize: "1.25em", padding: "8px 0", 
+                  style={{fontSize: "1em", padding: "8px 0", 
                     background: "transparent",
                     border: "none", 
                     borderBottom: "2px solid #FFF",
@@ -92,7 +99,8 @@ function App() {
             <Spacing size={8}/>
             <div style={{display:"flex", gap: 8}}>
               <button onClick={handleResetInputMode} style={{border: "2px solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", padding: "5px 12px 4px"}}>취소</button>
-              <button style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", padding: "5px 12px 4px"}}>저장</button>
+              <button onClick={handleAddTodoItem}
+              style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", padding: "5px 12px 4px"}}>저장</button>
             </div>
           </div>
           )}
