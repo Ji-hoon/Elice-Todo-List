@@ -66,7 +66,7 @@ export default function TodoItem({
           createdAt : format(currentDate, "yyyy-MM-dd"),
         });
         //setTodoItems(newTodo);
-        console.log(newTodo);
+        //console.log(newTodo);
         localStorage.setItem('todoData', JSON.stringify(newTodo));
         onRefreshTodo();
     }
@@ -90,6 +90,7 @@ export default function TodoItem({
                 <input placeholder="할 일을 입력하세요"
                     type="text"
                     onChange={(e) => handleChangeAddInputValue(e)}
+                    onKeyDown={(e) => { if(e.key === "Enter") {onAddTodoItem();onResetInputMode();} }}
                     style={{fontSize: "1em", padding: "0", 
                         background: "transparent",
                         border: "none", 
@@ -98,16 +99,17 @@ export default function TodoItem({
                 />
                 <Spacing size={8}/>
                 <div style={{display:"flex", gap: 8}}>
-                <button onClick={onResetInputMode} style={{border: "2px solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>취소</button>
-                <button onClick={() => {
-                    if(addInputValue == "") {
-                        alert("1글자 이상 입력해주세요.");
-                        return;
-                    }
-                    onAddTodoItem();
-                    onResetInputMode();}}
-                style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>저장</button>
+                    <button onClick={onResetInputMode} style={{border: "2px solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>취소</button>
+                    <button onClick={() => {
+                        if(addInputValue == "") {
+                            alert("1글자 이상 입력해주세요.");
+                            return;
+                        }
+                        onAddTodoItem();
+                        onResetInputMode();}}
+                        style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>저장</button>
                 </div>
+                <Spacing size={8}/>
             </>)}
 
             {itemType==="default" && (
