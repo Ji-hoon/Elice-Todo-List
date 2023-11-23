@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 // import './App.css';
@@ -16,7 +16,7 @@ import { InputMode, TodoItem } from "./types";
 const defaultInputMode: InputMode = {type: "default"};
 
 function App() {
-  const [todoItems, setTodoItems] = useState<TodoItem[]>(todoItemsDummy as TodoItem[]);
+  const [todoItems, setTodoItems] = useState<TodoItem[]>([]);
   const [currentDate, setCurrentDate] = useState( new Date() );
 
   const [inputMode, setInputMode] = useState<InputMode>(defaultInputMode);
@@ -82,7 +82,7 @@ function App() {
       element.scrollTo({top:0, behavior:"smooth"});
     }
   };
-  
+
   const toggleDone = (id:string) => {
     const newTodo = [...todoItems];
     const targetItem = newTodo.filter((item) => item.id === id );
@@ -91,6 +91,14 @@ function App() {
     setTodoItems(newTodo);
   }
 
+  useEffect( () => {
+    const dateString = format(currentDate, 'yyyy-MM-dd'); // date type을 스트링으로 바꿔서 비교해야 함
+    //console.log(dateString);
+    const todayTodo = todoItemsDummy.filter( (item) => item.createdAt === dateString);
+    //console.log(todayTodo);
+    setTodoItems(todayTodo);
+    //console.log(todoItems);
+  }, [currentDate]);
   
 
 
