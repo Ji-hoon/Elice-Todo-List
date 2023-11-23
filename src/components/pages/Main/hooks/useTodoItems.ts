@@ -8,8 +8,8 @@ import todoItemsDummy from '../../../../assets/dummy/todoItems.ts';
 // url에 넘겨서 사용하는 방법 (location 객체)
 
 export default function useTodoItems(currentDate) {
-    const [todoItems, setTodoItems] = useState<TodoItem[]>([]);
-
+    const [todoItems, setTodoItems] = useState<TodoItem[]>();
+    const [addInputValue, setAddInputValue] = useState("");
     
       function handleAddTodoItem() {
         // todoItems에 추가하고 인풋모드를 리셋한다.
@@ -42,19 +42,19 @@ export default function useTodoItems(currentDate) {
       const toggleDone = (id:string) => {
         const newTodo = [...todoItems];
         const targetItem = newTodo.filter((item) => item.id === id );
-        //console.log(targetItem);
+        console.log(targetItem);
         targetItem[0].isDone = !targetItem[0].isDone;
         setTodoItems(newTodo);
       }
     
-    //   useEffect( () => {
-    //     const dateString = format(currentDate, 'yyyy-MM-dd'); // date type을 스트링으로 바꿔서 비교해야 함
-    //     //console.log(dateString);
-    //     const todayTodo = todoItemsDummy.filter( (item) => item.createdAt === dateString);
-    //     //console.log(todayTodo);
-    //     setTodoItems(todayTodo);
-    //     //console.log(todoItems);
-    //   }, [currentDate]);
+      useEffect( () => {
+        const dateString = format(currentDate, 'yyyy-MM-dd'); // date type을 스트링으로 바꿔서 비교해야 함
+        //console.log(dateString);
+        const todayTodo = todoItemsDummy.filter( (item) => item.createdAt === dateString);
+        //console.log(todayTodo);
+        setTodoItems(todayTodo);
+        //console.log(todoItems);
+      }, [currentDate]);
 
     return { 
         onAddTodoItem : handleAddTodoItem,

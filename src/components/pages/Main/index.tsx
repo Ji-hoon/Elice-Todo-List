@@ -14,7 +14,6 @@ import useTodoItems from "./hooks/useTodoItems.ts"
 const defaultInputMode: InputMode = {type: "default"};
 
 export default function Main() {
- 
 
   const [currentDate, setCurrentDate] = useState( new Date() );
   const [todoItems, setTodoItems] = useState<TodoItem[]>([]);
@@ -98,7 +97,7 @@ export default function Main() {
     const todayTodo = todoItemsDummy.filter( (item) => item.createdAt === dateString);
     //console.log(todayTodo);
     setTodoItems(todayTodo);
-    //console.log(todoItems);
+    console.log(todoItems);
   }, [currentDate]);
   
 
