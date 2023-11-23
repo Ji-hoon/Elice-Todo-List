@@ -87,14 +87,37 @@ export default function Main() {
     }
   };
 
-  useEffect( () => {
+  function onRefreshTodo() {
+    //const newTodo = JSON.parse(localStorage.getItem('todoData'));
+    // setTodoItems(newTodo);
+    // console.log(newTodo);
+    //setCurrentDate(currentDate);
+    
     const dateString = format(currentDate, 'yyyy-MM-dd'); // date type을 스트링으로 바꿔서 비교해야 함
     //console.log(dateString);
-    const todayTodo = todoItemsDummy.filter( (item) => item.createdAt === dateString);
+    const localTodoData = JSON.parse(localStorage.getItem('todoData'));
+    const todayTodo = localTodoData.filter( (item) => item.createdAt === dateString);
     //console.log(todayTodo);
     setTodoItems(todayTodo);
-    //console.log(todoItems);
-  }, [currentDate]);
+  }
+
+  useEffect( () => {
+    const savedData = localStorage.getItem('todoData');
+    if (!savedData) {
+        localStorage.setItem('todoData', JSON.stringify(todoItemsDummy));
+        return;
+    }
+    //const parsedData = JSON.parse(savedData);
+    //setTodoItems(parsedData);
+  },[]);
+
+  useEffect( () => {
+    
+  }, [todoItems]);
+
+  useEffect( () => {
+    onRefreshTodo();
+  }, [currentDate, ]);
 
   return (      
     <main style={{ maxWidth: 420, height: "100vh", margin: "0 auto",backgroundColor: "#1e1e1e",position:"relative",
@@ -132,7 +155,7 @@ export default function Main() {
             style={{display:"flex", flexDirection: "column", alignItems:"center",padding: "1em 1em 1em 1.5em"}}>
           
           {inputMode.type === "add" && (
-            <TodoItem itemType="add" onResetInputMode={handleResetInputMode} itemInfo={{}}/>
+            <TodoItem itemType="add" onResetInputMode={handleResetInputMode} onRefreshTodo={onRefreshTodo} itemInfo={{}}/>
           )}
 
           {[...todoItems].map( (todo) =>  {
@@ -140,7 +163,7 @@ export default function Main() {
               <div key={todo.id} style={{padding: "0", width:"100%"}}>
                 {/* {inputMode === "edit" && inputMode.item} */}
                 {inputMode.type!=="edit" &&
-                    <TodoItem itemType="default" onResetInputMode={handleResetInputMode} itemInfo={{todo}}/>
+                    <TodoItem itemType="default" onResetInputMode={handleResetInputMode} onRefreshTodo={onRefreshTodo} itemInfo={{todo}}/>
                 }
               </div>
               )

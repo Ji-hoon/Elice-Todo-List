@@ -4,10 +4,12 @@ import { FiCheck, FiPlus, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from 
 import styled from "styled-components";
 import '../index.css';
 
-import useTodoItems from "./pages/Main/hooks/useTodoItems.ts"
+// import useTodoItems from "./pages/Main/hooks/useTodoItems.ts"
 
-import { TodoItemType, InputMode } from "../types/index.ts";
+// import { TodoItemType, InputMode } from "../types/index.ts";
 import Spacing from "./Spacing.tsx";
+
+// import todoItemsDummy from '../assets/dummy/todoItems.ts';
 
 //const defaultInputMode: InputMode = {type: "default"};
 
@@ -15,19 +17,62 @@ type TodoItemProps = {
     itemType: string;
     itemInfo: Object;
     onResetInputMode:Function;
+    onRefreshTodo : Function;
   }
 
-export default function TodoItem({itemType, itemInfo, onResetInputMode}:TodoItemProps) {
+export default function TodoItem({
+        itemType, 
+        itemInfo, 
+        onResetInputMode,
+        onRefreshTodo,
+    }:TodoItemProps) {
+    
+    //const [todoItems, setTodoItems] = useState<TodoItem[]>(todoItemsDummy);
+
     //const [inputMode, setInputMode] = useState<InputMode>(defaultInputMode);
+
+    //const [currentDate, setCurrentDate] = useState( new Date() );
+
+    // const { onAddTodoItem, onToggleDone } = useTodoItems(currentDate);
+
     const [addInputValue, setAddInputValue] = useState("");
-
-    const [currentDate, setCurrentDate] = useState( new Date() );
-
-    const { onAddTodoItem, onToggleDone } = useTodoItems(currentDate);
 
     function handleChangeAddInputValue(event:React.ChangeEvent<HTMLInputElement>) {
         setAddInputValue(event.target.value);
         //console.log(addInputValue);
+    }
+
+    function onAddTodoItem() {
+        // todoItems에 추가하고 인풋모드를 리셋한다.
+        const newTodo = JSON.parse(localStorage.getItem('todoData'));
+    
+        const date = new Date();
+        const year = date.getFullYear();
+        const month = ('0' + (date.getMonth() + 1)).slice(-2);
+        const day = ('0' + date.getDate()).slice(-2);
+        const dateStr = `${year}-${month}-${day}`;
+    
+        const lastId = newTodo.map(item => parseInt(item.id))
+        .reduce((prev, curr) => prev > curr ? prev : curr, 0);
+        newTodo.push({id: String(lastId+1),
+          content : addInputValue,
+          isDone: false,
+          createdAt : dateStr,
+        });
+        //setTodoItems(newTodo);
+        console.log(newTodo);
+        localStorage.setItem('todoData', JSON.stringify(newTodo));
+        onRefreshTodo();
+    }
+
+    const onToggleDone = (id:string) => {
+        console.log(id);
+        const newTodo = JSON.parse(localStorage.getItem('todoData'));
+        const targetItem = newTodo.filter((item) => item.id === id );
+        console.log(targetItem);
+        targetItem[0].isDone = !targetItem[0].isDone;
+        localStorage.setItem('todoData', JSON.stringify(newTodo));
+        onRefreshTodo();
     }
     
     //console.log(itemInfo);

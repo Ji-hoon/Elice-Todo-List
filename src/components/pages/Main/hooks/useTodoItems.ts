@@ -29,9 +29,9 @@ export default function useTodoItems() {
           isDone: false,
           createdAt : dateStr,
         });
-        setTodoItems(newTodo);
-        //handleResetInputMode();
-        console.log(todoItems);
+        //setTodoItems(newTodo);
+        console.log(newTodo);
+        localStorage.setItem('todoData', JSON.stringify(newTodo));
       }
     
       const toggleDone = (id:string) => {
