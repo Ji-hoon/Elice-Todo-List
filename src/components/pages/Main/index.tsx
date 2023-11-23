@@ -11,8 +11,6 @@ import { TodoItemType, InputMode } from "../../../types/index.ts";
 import TodoItem from "../../TodoItem.tsx";
 import Header from "../../Header.tsx";
 
-
-//import useTodoItems from "./hooks/useTodoItems.ts"
 import styled from "styled-components";
 
 const defaultInputMode: InputMode = {type: "default"};
@@ -23,12 +21,11 @@ export default function Main() {
 
   const [currentDate, setCurrentDate] = useState( new Date() );
   const [todoItems, setTodoItems] = useState<TodoItemType[]>([]);
-//   const [addInputValue, setAddInputValue] = useState("");
+
   const [editInputValue, setEditInputValue] = useState("");
   
   const [inputMode, setInputMode] = useState<InputMode>(defaultInputMode);
 
-  //const { onAddTodoItem, onToggleDone } = useTodoItems();
 
   const elementRef = useRef(null);
   //console.log(currentDate);
@@ -44,32 +41,6 @@ export default function Main() {
   function handleResetInputMode() {
     setInputMode(defaultInputMode);
   }
-
-//   function handleChangeAddInputValue(event:React.ChangeEvent<HTMLInputElement>) {
-//     setAddInputValue(event.target.value);
-//   }
-
-//   function handleAddTodoItem() {
-//     // todoItems에 추가하고 인풋모드를 리셋한다.
-//     const newTodo = [...todoItems];
-
-//     const date = new Date();
-//     const year = date.getFullYear();
-//     const month = ('0' + (date.getMonth() + 1)).slice(-2);
-//     const day = ('0' + date.getDate()).slice(-2);
-//     const dateStr = `${year}-${month}-${day}`;
-
-//     const lastId = newTodo.map(item => parseInt(item.id))
-//     .reduce((prev, curr) => prev > curr ? prev : curr, 0);
-//     newTodo.push({id: String(lastId+1),
-//       content : addInputValue,
-//       isDone: false,
-//       createdAt : dateStr,
-//     });
-//     setTodoItems(newTodo);
-//     handleResetInputMode();
-//     console.log(todoItems);
-//   }
 
   function handleMoveNextDate() {
     const newDate = addDays(currentDate, 1);
@@ -110,8 +81,8 @@ export default function Main() {
         localStorage.setItem('todoData', JSON.stringify(todoItemsDummy));
         return;
     }
-    //const parsedData = JSON.parse(savedData);
-    //setTodoItems(parsedData);
+    const parsedData = JSON.parse(savedData);
+    setTodoItems(parsedData);
   },[]);
 
   useEffect( () => {
@@ -121,6 +92,7 @@ export default function Main() {
   useEffect( () => {
     onRefreshTodo();
   }, [currentDate, ]);
+
 
   return (      
     <main style={{ maxWidth: 420, height: "100vh", margin: "0 auto",backgroundColor: "#1e1e1e",position:"relative",
@@ -133,6 +105,7 @@ export default function Main() {
             width: 48, height: 48, placeItems: "center",placeContent: "center", cursor:"pointer", border:"none", }}>
         <FiPlus color="var(--color-black)" size={30}/>
       </button>
+
       <section ref={elementRef} 
                style={{overflow:"hidden auto", height: "100%", padding: "0 0 2em", }}>
         
@@ -159,10 +132,12 @@ export default function Main() {
               )
             })
           }
+
           <div style={{display:"flex", justifyContent:"center", width:"fit-content", margin: "2em 0 0", cursor:"pointer"}}
               onClick={scrollToTop}>
             <FiArrowUpCircle color="#505050" size="36"/>
           </div>
+
         </div>
       </section>
     </main>

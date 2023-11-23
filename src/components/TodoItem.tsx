@@ -37,6 +37,8 @@ export default function TodoItem({
 
     const [addInputValue, setAddInputValue] = useState("");
 
+    const [editInputValue, setEditInputValue] = useState("");
+
     function handleChangeAddInputValue(event:React.ChangeEvent<HTMLInputElement>) {
         setAddInputValue(event.target.value);
         //console.log(addInputValue);
@@ -66,10 +68,10 @@ export default function TodoItem({
     }
 
     const onToggleDone = (id:string) => {
-        console.log(id);
+        //console.log(id);
         const newTodo = JSON.parse(localStorage.getItem('todoData'));
         const targetItem = newTodo.filter((item) => item.id === id );
-        console.log(targetItem);
+        //console.log(targetItem);
         targetItem[0].isDone = !targetItem[0].isDone;
         localStorage.setItem('todoData', JSON.stringify(newTodo));
         onRefreshTodo();
@@ -79,15 +81,16 @@ export default function TodoItem({
 
     return(
         <div style={{padding:"0",display:"flex",flexDirection: "column", width:"100%"}} >
+            
             {itemType == "add" && ( <>
                 <input placeholder="할 일을 입력하세요"
                     type="text"
                     onChange={(e) => handleChangeAddInputValue(e)}
-                    style={{fontSize: "1em", padding: "8px 0", 
+                    style={{fontSize: "1em", padding: "0", 
                         background: "transparent",
                         border: "none", 
                         borderBottom: "2px solid #FFF",
-                        outline: "none", color: "#FFF"}}
+                        outline: "none", color: "#FFF",height:52}}
                 />
                 <Spacing size={8}/>
                 <div style={{display:"flex", gap: 8}}>
@@ -98,6 +101,7 @@ export default function TodoItem({
                 style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>저장</button>
                 </div>
             </>)}
+
             {itemType==="default" && (
                 <div style={{display:'flex', flexDirection: "row", justifyContent:"space-between"}}>
                 <Content isDone={itemInfo.todo.isDone}>{itemInfo.todo.content}</Content>
@@ -108,6 +112,7 @@ export default function TodoItem({
                 </DoneButton>
               </div>
             )}
+
         </div>  
     )
 }
@@ -119,6 +124,7 @@ const Content = styled.div<{isDone:boolean}>`
     overflow: hidden;
     text-overflow:ellipsis;
     user-select: none;
+    font-size: 1em;
     text-decoration:  ${(props) => (props.isDone ? "line-through" : "none")};
     color: ${(props) => (props.isDone ? "#999" : "#FFF")};
 `;

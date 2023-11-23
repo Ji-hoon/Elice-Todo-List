@@ -4,8 +4,6 @@ import { useState, useRef, useEffect } from 'react';
 import { FiCheck, FiPlus, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from "react-icons/fi";
 
 import format from 'date-fns/format';
-import addDays from 'date-fns/addDays';
-import subDays from 'date-fns/subDays';
 
 type HeaderProps = {
     handleMovePrevDate: Function;
