@@ -6,8 +6,12 @@ import viteLogo from '/vite.svg';
 import { FiCheck, FiPlus, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from "react-icons/fi";
 import todoItemsDummy from './assets/dummy/todoItems.ts';
 import format from 'date-fns/format';
+import addDays from 'date-fns/addDays';
+import subDays from 'date-fns/subDays';
+
 import Spacing from "./components/Spacing.tsx";
 import { InputMode, TodoItem } from "./types";
+
 
 const defaultInputMode: InputMode = {type: "default"};
 
@@ -25,6 +29,10 @@ function App() {
   function handleAddMode() {
     setInputMode({type: "add"});
   }
+
+  function handleEditMode(item:TodoItem) {
+    setInputMode({type: "edit", item:item});
+  } 
 
   function handleResetInputMode() {
     setInputMode(defaultInputMode);
@@ -56,12 +64,25 @@ function App() {
     console.log(todoItems);
   }
 
+  function handleMoveNextDate() {
+    const newDate = addDays(currentDate, 1);
+    //console.log(newDate);
+    setCurrentDate(newDate);
+  }
+
+  function handleMovePrevDate() {
+    const newDate = subDays(currentDate, 1);
+    //console.log(newDate);
+    setCurrentDate(newDate);
+  }
+
   const scrollToTop = ():void => {
     const element = elementRef.current;
     if (element) {
       element.scrollTo({top:0, behavior:"smooth"});
     }
   };
+  
   const toggleDone = (id:string) => {
     const newTodo = [...todoItems];
     const targetItem = newTodo.filter((item) => item.id === id );
@@ -69,6 +90,11 @@ function App() {
     targetItem[0].isDone = !targetItem[0].isDone;
     setTodoItems(newTodo);
   }
+
+  
+
+
+
   return (      
     <main style={{ maxWidth: 420, height: "100vh", margin: "0 auto",backgroundColor: "#1e1e1e",position:"relative", }}>
       
@@ -82,14 +108,16 @@ function App() {
       <section ref={elementRef} 
                style={{overflow:"hidden auto", height: "100%", padding: "0 0 2em", }}>
         <header style={{display: "flex", position: "sticky", top:0, backgroundColor: "#1E1E1E", alignItems: "center", padding: 8, boxShadow: "0 1px 0 0 rgba(255,255,255,0.08)"}}>
-          <div style={{padding: 12, cursor:"pointer", display:"flex"}}>
+          <div onClick={handleMovePrevDate}
+                style={{padding: 12, cursor:"pointer", display:"flex"}}>
             <FiChevronLeft color="#FFF" size={24}/>
           </div>
           <div style={{flexGrow:1, textAlign:"center", alignItems: "center",display: "flex", flexDirection: "column", justifyContent: "center"}}>
             <div style={{fontSize: 20,fontWeight: 700,}}>{format(currentDate, "MM월 dd일")}</div>
             <div style={{fontSize: 14}}>{format(currentDate, "yyyy년")}</div>
           </div>
-          <div style={{padding: 12, cursor:"pointer", display:"flex"}}>
+          <div onClick={handleMoveNextDate} 
+              style={{padding: 12, cursor:"pointer", display:"flex"}}>
             <FiChevronRight color="#FFF" size={24}/>
           </div>
         </header>
@@ -121,6 +149,7 @@ function App() {
             return (
               <div key={todo.id} style={{padding: "0", width:"100%"}}>
                 
+                {/* {inputMode === "edit" && inputMode.item} */}
                 {!todo.isDone &&
                   <div style={{display:'flex', flexDirection: "row", justifyContent:"space-between"}}>
                     <div style={{display: "flex", alignItems: "center", whiteSpace: "nowrap",overflow: "hidden", textOverflow: "ellipsis"}}>{todo.content}</div>
