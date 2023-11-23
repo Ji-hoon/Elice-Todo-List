@@ -11,6 +11,7 @@ import subDays from 'date-fns/subDays';
 import Spacing from "../../../components/Spacing.tsx";
 import { InputMode, TodoItem } from "../../../types";
 import useTodoItems from "./hooks/useTodoItems.ts"
+import styled from "styled-components";
 
 const defaultInputMode: InputMode = {type: "default"};
 
@@ -161,7 +162,7 @@ export default function Main() {
                 {/* {inputMode === "edit" && inputMode.item} */}
                 {!todo.isDone &&
                   <div style={{display:'flex', flexDirection: "row", justifyContent:"space-between"}}>
-                    <div style={{display: "flex", alignItems: "center", whiteSpace: "nowrap",overflow: "hidden", textOverflow: "ellipsis"}}>{todo.content}</div>
+                    <Content isDone={todo.isDone}>{todo.content}</Content>
                     <div style={{padding: 12, cursor:"pointer", display:"flex"}}
                         onClick={()=> onToggleDone(todo.id)}>
                       <FiCheck size={26}/>
@@ -170,7 +171,7 @@ export default function Main() {
                 
                 {todo.isDone &&
                   <div style={{display:'flex', flexDirection: "row", justifyContent:"space-between"}}>
-                    <div style={{display: "flex", alignItems: "center", whiteSpace: "nowrap",overflow: "hidden", textOverflow: "ellipsis", textDecoration: "line-through", color: "#999"}}>{todo.content}</div>
+                    <Content isDone={todo.isDone}>{todo.content}</Content>
                     
                     <div style={{padding: 12, cursor:"pointer", display:"flex"}}
                         onClick={()=> {onToggleDone(todo.id)}}>
@@ -190,3 +191,13 @@ export default function Main() {
     </main>
   )
 }
+
+const Content = styled.div<{isDone:boolean}>`
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    text-decoration:  ${(props) => (props.isDone ? "line-through" : "none")};
+    color: ${(props) => (props.isDone ? "#999" : "#FFF")};
+`;
