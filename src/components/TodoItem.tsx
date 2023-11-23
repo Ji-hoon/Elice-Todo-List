@@ -18,7 +18,7 @@ type TodoItemProps = {
     itemInfo: Object;
     onResetInputMode:Function;
     onRefreshTodo : Function;
-  }
+}
 
 export default function TodoItem({
         itemType, 

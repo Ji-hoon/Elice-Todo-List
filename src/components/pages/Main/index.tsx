@@ -9,7 +9,10 @@ import subDays from 'date-fns/subDays';
 
 import { TodoItemType, InputMode } from "../../../types/index.ts";
 import TodoItem from "../../TodoItem.tsx";
-import useTodoItems from "./hooks/useTodoItems.ts"
+import Header from "../../Header.tsx";
+
+
+//import useTodoItems from "./hooks/useTodoItems.ts"
 import styled from "styled-components";
 
 const defaultInputMode: InputMode = {type: "default"};
@@ -25,7 +28,7 @@ export default function Main() {
   
   const [inputMode, setInputMode] = useState<InputMode>(defaultInputMode);
 
-  const { onAddTodoItem, onToggleDone } = useTodoItems();
+  //const { onAddTodoItem, onToggleDone } = useTodoItems();
 
   const elementRef = useRef(null);
   //console.log(currentDate);
@@ -92,7 +95,7 @@ export default function Main() {
     // setTodoItems(newTodo);
     // console.log(newTodo);
     //setCurrentDate(currentDate);
-    
+
     const dateString = format(currentDate, 'yyyy-MM-dd'); // date type을 스트링으로 바꿔서 비교해야 함
     //console.log(dateString);
     const localTodoData = JSON.parse(localStorage.getItem('todoData'));
@@ -132,24 +135,11 @@ export default function Main() {
       </button>
       <section ref={elementRef} 
                style={{overflow:"hidden auto", height: "100%", padding: "0 0 2em", }}>
-        <header style={{display: "flex", position: "sticky", top:0, backgroundColor: "#1E1E1E", alignItems: "center", padding: 8, boxShadow: "0 1px 0 1px rgba(255,255,255,0.08)"}}>
-          <div onClick={handleMovePrevDate}
-                style={{padding: 12, cursor:"pointer", display:"flex"}}>
-            <FiChevronLeft color="#FFF" size={24}/>
-          </div>
-          <div style={{flexGrow:1, textAlign:"center", alignItems: "center",display: "flex", flexDirection: "column", justifyContent: "center"}}>
-            <div style={{fontSize: 20,fontWeight: 700, userSelect: "none", display:"flex", alignItems:"center", gap: 4}}>
-                <span>{format(currentDate, "MM월 dd일")}</span>
-                {format(currentDate, "MM월 dd일") === today 
-                 && <span style={{fontSize:"0.55em", padding: "0.1em 0.6em", backgroundColor: "var(--color-primary)",color:"var(--color-dark)", borderRadius:80}}>Today</span>}
-            </div>
-            <div style={{fontSize: 14, userSelect: "none"}}>{format(currentDate, "yyyy년")}</div>
-          </div>
-          <div onClick={handleMoveNextDate} 
-              style={{padding: 12, cursor:"pointer", display:"flex"}}>
-            <FiChevronRight color="#FFF" size={24}/>
-          </div>
-        </header>
+        
+        <Header handleMovePrevDate={() => handleMovePrevDate()}
+                handleMoveNextDate={() => handleMoveNextDate()}
+                currentDate={currentDate}
+                today={today}/>
        
         <div className="todoItemList" 
             style={{display:"flex", flexDirection: "column", alignItems:"center",padding: "1em 1em 1em 1.5em"}}>
