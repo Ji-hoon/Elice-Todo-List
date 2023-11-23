@@ -20,7 +20,7 @@ function App() {
   const [editInputValue, setEditInputValue] = useState("");
   
   const elementRef = useRef(null);
-  console.log(currentDate);
+  //console.log(currentDate);
 
   function handleAddMode() {
     setInputMode({type: "add"});
@@ -37,13 +37,22 @@ function App() {
   function handleAddTodoItem() {
     // todoItems에 추가하고 인풋모드를 리셋한다.
     const newTodo = [...todoItems];
-    newTodo.push({id: String(newTodo.length+1),
+
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = ('0' + (date.getMonth() + 1)).slice(-2);
+    const day = ('0' + date.getDate()).slice(-2);
+    const dateStr = `${year}-${month}-${day}`;
+
+    newTodo.push({id: newTodo.map(item => item.id)
+      .reduce((prev, curr) => prev > curr ? prev : curr),
       content : addInputValue,
       isDone: false,
-      createdAt : String(new Date()),
+      createdAt : dateStr,
     });
     setTodoItems(newTodo);
     handleResetInputMode();
+    console.log(todoItems);
   }
 
   const scrollToTop = ():void => {
