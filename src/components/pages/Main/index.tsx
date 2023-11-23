@@ -14,6 +14,7 @@ import useTodoItems from "./hooks/useTodoItems.ts"
 import styled from "styled-components";
 
 const defaultInputMode: InputMode = {type: "default"};
+const today = format( new Date(), "MM월 dd일");
 
 export default function Main() {
 
@@ -23,6 +24,8 @@ export default function Main() {
   const [addInputValue, setAddInputValue] = useState("");
   const [editInputValue, setEditInputValue] = useState("");
   
+  
+
   const { onAddTodoItem, onToggleDone } = useTodoItems(currentDate);
 
   const elementRef = useRef(null);
@@ -99,7 +102,7 @@ export default function Main() {
     const todayTodo = todoItemsDummy.filter( (item) => item.createdAt === dateString);
     //console.log(todayTodo);
     setTodoItems(todayTodo);
-    console.log(todoItems);
+    //console.log(todoItems);
   }, [currentDate]);
   
 
@@ -123,8 +126,12 @@ export default function Main() {
             <FiChevronLeft color="#FFF" size={24}/>
           </div>
           <div style={{flexGrow:1, textAlign:"center", alignItems: "center",display: "flex", flexDirection: "column", justifyContent: "center"}}>
-            <div style={{fontSize: 20,fontWeight: 700,}}>{format(currentDate, "MM월 dd일")}</div>
-            <div style={{fontSize: 14}}>{format(currentDate, "yyyy년")}</div>
+            <div style={{fontSize: 20,fontWeight: 700, userSelect: "none", display:"flex", alignItems:"center", gap: 4}}>
+                <span>{format(currentDate, "MM월 dd일")}</span>
+                {format(currentDate, "MM월 dd일") === today 
+                 && <span style={{fontSize:"0.55em", padding: "0.1em 0.6em", backgroundColor: "var(--color-primary)",color:"var(--color-dark)", borderRadius:80}}>Today</span>}
+            </div>
+            <div style={{fontSize: 14, userSelect: "none"}}>{format(currentDate, "yyyy년")}</div>
           </div>
           <div onClick={handleMoveNextDate} 
               style={{padding: 12, cursor:"pointer", display:"flex"}}>
@@ -198,6 +205,7 @@ const Content = styled.div<{isDone:boolean}>`
     white-space: nowrap;
     overflow: hidden;
     text-overflow:ellipsis;
+    user-select: none;
     text-decoration:  ${(props) => (props.isDone ? "line-through" : "none")};
     color: ${(props) => (props.isDone ? "#999" : "#FFF")};
 `;

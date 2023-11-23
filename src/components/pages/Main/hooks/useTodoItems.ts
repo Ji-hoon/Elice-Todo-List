@@ -32,15 +32,10 @@ export default function useTodoItems(currentDate) {
         //handleResetInputMode();
         console.log(todoItems);
       }
-    //   const scrollToTop = ():void => {
-    //     const element = elementRef.current;
-    //     if (element) {
-    //       element.scrollTo({top:0, behavior:"smooth"});
-    //     }
-    //   };
     
       const toggleDone = (id:string) => {
-        const newTodo = [...todoItems];
+        console.log(id);
+        const newTodo = [...todoItemsDummy];
         const targetItem = newTodo.filter((item) => item.id === id );
         console.log(targetItem);
         targetItem[0].isDone = !targetItem[0].isDone;
