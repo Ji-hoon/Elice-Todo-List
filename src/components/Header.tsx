@@ -9,6 +9,7 @@ type HeaderProps = {
     handleMovePrevDate: Function;
     handleMoveNextDate: Function;
     currentDate: Date;
+    today:string;
 }
 
 export default function Header({
