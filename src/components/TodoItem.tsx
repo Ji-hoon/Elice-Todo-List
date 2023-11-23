@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { FiCheck, FiPlus, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from "react-icons/fi";
 
 import styled from "styled-components";
+import format from 'date-fns/format';
+
 import '../index.css';
 
 // import useTodoItems from "./pages/Main/hooks/useTodoItems.ts"
@@ -18,6 +20,7 @@ type TodoItemProps = {
     itemInfo: Object;
     onResetInputMode:Function;
     onRefreshTodo : Function;
+    currentDate: Date;
 }
 
 export default function TodoItem({
@@ -25,6 +28,7 @@ export default function TodoItem({
         itemInfo, 
         onResetInputMode,
         onRefreshTodo,
+        currentDate,
     }:TodoItemProps) {
     
     //const [todoItems, setTodoItems] = useState<TodoItem[]>(todoItemsDummy);
@@ -48,18 +52,18 @@ export default function TodoItem({
         // todoItems에 추가하고 인풋모드를 리셋한다.
         const newTodo = JSON.parse(localStorage.getItem('todoData'));
     
-        const date = new Date();
-        const year = date.getFullYear();
-        const month = ('0' + (date.getMonth() + 1)).slice(-2);
-        const day = ('0' + date.getDate()).slice(-2);
-        const dateStr = `${year}-${month}-${day}`;
+        // const date = new Date();
+        // const year = date.getFullYear();
+        // const month = ('0' + (date.getMonth() + 1)).slice(-2);
+        // const day = ('0' + date.getDate()).slice(-2);
+        // const dateStr = `${year}-${month}-${day}`;
     
         const lastId = newTodo.map(item => parseInt(item.id))
         .reduce((prev, curr) => prev > curr ? prev : curr, 0);
         newTodo.push({id: String(lastId+1),
           content : addInputValue,
           isDone: false,
-          createdAt : dateStr,
+          createdAt : format(currentDate, "yyyy-MM-dd"),
         });
         //setTodoItems(newTodo);
         console.log(newTodo);
