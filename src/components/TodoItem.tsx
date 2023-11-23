@@ -93,8 +93,8 @@ export default function TodoItem({
                     style={{fontSize: "1em", padding: "0", 
                         background: "transparent",
                         border: "none", 
-                        borderBottom: "2px solid #FFF",
-                        outline: "none", color: "#FFF",height:52}}
+                        borderBottom: "1px solid #FFF",
+                        outline: "none", color: "#FFF",height:51}}
                 />
                 <Spacing size={8}/>
                 <div style={{display:"flex", gap: 8}}>

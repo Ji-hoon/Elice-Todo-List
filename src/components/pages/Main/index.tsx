@@ -127,14 +127,13 @@ export default function Main() {
           {todoItems.length > 0 && [...todoItems].map( (todo) =>  {
             return (
               <div key={todo.id} style={{padding: "0", width:"100%"}}>
-                {/* {inputMode === "edit" && inputMode.item} */}
-                {inputMode.type!=="edit" &&
+                {/* {inputMode === "edit" && inputMode.item} 
+                {inputMode.type!=="edit" && */}
                     <TodoItem itemType="default" 
                               onResetInputMode={handleResetInputMode} 
                               onRefreshTodo={onRefreshTodo} 
                               itemInfo={{todo}}
                               currentDate={currentDate}/>
-                }
               </div>
               )
             })
