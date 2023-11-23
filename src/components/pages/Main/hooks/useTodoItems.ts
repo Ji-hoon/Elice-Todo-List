@@ -8,7 +8,7 @@ import todoItemsDummy from '../../../../assets/dummy/todoItems.ts';
 // url에 넘겨서 사용하는 방법 (location 객체)
 
 export default function useTodoItems(currentDate) {
-    const [todoItems, setTodoItems] = useState<TodoItem[]>();
+    const [todoItems, setTodoItems] = useState<TodoItem[]>(todoItemsDummy);
     const [addInputValue, setAddInputValue] = useState("");
     
       function handleAddTodoItem() {
@@ -29,7 +29,7 @@ export default function useTodoItems(currentDate) {
           createdAt : dateStr,
         });
         setTodoItems(newTodo);
-        handleResetInputMode();
+        //handleResetInputMode();
         console.log(todoItems);
       }
     //   const scrollToTop = ():void => {
@@ -50,7 +50,7 @@ export default function useTodoItems(currentDate) {
       useEffect( () => {
         const dateString = format(currentDate, 'yyyy-MM-dd'); // date type을 스트링으로 바꿔서 비교해야 함
         //console.log(dateString);
-        const todayTodo = todoItemsDummy.filter( (item) => item.createdAt === dateString);
+        const todayTodo = todoItems.filter( (item) => item.createdAt === dateString);
         //console.log(todayTodo);
         setTodoItems(todayTodo);
         //console.log(todoItems);

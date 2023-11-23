@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 // import './App.css';
+import '../../../index.css';
 
 import { FiCheck, FiPlus, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from "react-icons/fi";
 import todoItemsDummy from '../../../assets/dummy/todoItems.ts';
@@ -111,7 +112,7 @@ export default function Main() {
         scrollToTop();}}
       style={{borderRadius: 30, backgroundColor: "#CFFF48", top: "calc(100% - 70px)", left: "calc(100% - 70px)", display: "flex", position: "absolute",
         width: 48, height: 48, placeItems: "center",placeContent: "center", cursor:"pointer", border:"none"}}>
-        <FiPlus color="#1E1E1E" size={24}/>
+        <FiPlus color="var(--color-black)" size={24}/>
       </button>
       <section ref={elementRef} 
                style={{overflow:"hidden auto", height: "100%", padding: "0 0 2em", }}>
