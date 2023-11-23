@@ -23,7 +23,7 @@ function App() {
   };
 
   return (      
-    <main style={{ maxWidth: 400, height: "100vh", margin: "0 auto",backgroundColor: "#1e1e1e",position:"relative", }}>
+    <main style={{ maxWidth: 420, height: "100vh", margin: "0 auto",backgroundColor: "#1e1e1e",position:"relative", }}>
       
       <button style={{borderRadius: 30, backgroundColor: "#CFFF48", top: "calc(100% - 70px)", left: "calc(100% - 70px)", display: "flex", position: "absolute",
         width: 48, height: 48, placeItems: "center",placeContent: "center", cursor:"pointer", border:"none"}}>
@@ -44,22 +44,27 @@ function App() {
           </div>
         </header>
         <div className="todoItemList" 
-            style={{display:"flex", flexDirection: "column", alignItems:"center",padding: "1em 1.5em"}}>
+            style={{display:"flex", flexDirection: "column", alignItems:"center",padding: "1em 1em 1em 1.5em"}}>
 
           {[...todoItems,...todoItems,...todoItems].map( (todo) =>  {
             return (
-              <div key={todo.id} style={{padding: "8px 0", width:"100%"}}>
+              <div key={todo.id} style={{padding: "0", width:"100%"}}>
                 
                 {!todo.isDone &&
                   <div style={{display:'flex', flexDirection: "row", justifyContent:"space-between"}}>
-                    <div style={{whiteSpace: "nowrap",overflow: "hidden", textOverflow: "ellipsis"}}>{todo.content}</div>
-                    <FiCheck size={26}/>
+                    <div style={{display: "flex", alignItems: "center", whiteSpace: "nowrap",overflow: "hidden", textOverflow: "ellipsis"}}>{todo.content}</div>
+                    <div style={{padding: 12, cursor:"pointer", display:"flex"}}>
+                      <FiCheck size={26}/>
+                    </div>
                   </div>}
                 
                 {todo.isDone &&
                   <div style={{display:'flex', flexDirection: "row", justifyContent:"space-between"}}>
-                    <div style={{whiteSpace: "nowrap",overflow: "hidden", textOverflow: "ellipsis", textDecoration: "line-through", color: "#999"}}>{todo.content}</div>
-                    <FiCheck color="#CFFF48" size={26}/>
+                    <div style={{display: "flex", alignItems: "center", whiteSpace: "nowrap",overflow: "hidden", textOverflow: "ellipsis", textDecoration: "line-through", color: "#999"}}>{todo.content}</div>
+                    
+                    <div style={{padding: 12, cursor:"pointer", display:"flex"}}>
+                      <FiCheck color="#CFFF48" size={26}/>
+                    </div>
                   </div>}
               </div>
               )
