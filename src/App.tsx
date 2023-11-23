@@ -44,8 +44,9 @@ function App() {
     const day = ('0' + date.getDate()).slice(-2);
     const dateStr = `${year}-${month}-${day}`;
 
-    newTodo.push({id: newTodo.map(item => item.id)
-      .reduce((prev, curr) => prev > curr ? prev : curr),
+    const lastId = newTodo.map(item => parseInt(item.id))
+    .reduce((prev, curr) => prev > curr ? prev : curr);
+    newTodo.push({id: String(lastId+1),
       content : addInputValue,
       isDone: false,
       createdAt : dateStr,
