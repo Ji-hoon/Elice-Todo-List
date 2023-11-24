@@ -115,9 +115,12 @@ export default function Main() {
           style={{ maxWidth: 420, height: "100vh", margin: "0 auto",backgroundColor: "#1e1e1e",position:"relative",
      border: "0px solid rgba(255,255,255,0.08)"}}>
       
-      <button onClick={() => {
-        scrollToTop();
-        handleAddMode(); }}
+      <button onClick={() => { 
+                scrollToTop();
+                setTimeout(() => {
+                  handleAddMode();
+                },100);
+              }}
             style={{borderRadius: 30, backgroundColor: "#CFFF48", top: "calc(100% - 70px)", left: "calc(100% - 70px)", display: "flex", position: "absolute",
             width: 48, height: 48, placeItems: "center",placeContent: "center", cursor:"pointer", border:"none", zIndex:12 }}>
         <FiPlus color="var(--color-black)" size={30}/>

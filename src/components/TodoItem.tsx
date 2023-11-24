@@ -130,7 +130,7 @@ export default function TodoItem({
                 <Spacing size={8}/>
                 <div style={{display:"flex", gap: 8}}>
                     <button onClick={onResetInputMode}
-                            style={{border: "0.12em solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>
+                            style={{border: "0.12em solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px"}}>
                         취소</button>
                     <button onClick={() => {
                             if(addInputValue == "") {
@@ -139,7 +139,7 @@ export default function TodoItem({
                             }
                             onAddTodoItem();
                             onResetInputMode();}}
-                            style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>
+                            style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 13px 4px"}}>
                         할 일 추가</button>
                 </div>
                 <Spacing size={8}/>
@@ -166,7 +166,7 @@ export default function TodoItem({
                 <Spacing size={8}/>
                 <div style={{display:"flex", gap: 8}}>
                     <button onClick={onResetInputMode} 
-                            style={{border: "0.12em solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>
+                            style={{border: "0.12em solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px"}}>
                         취소</button>
                     <button onClick={() => {
                         if(editInputValue == "") {
@@ -175,11 +175,11 @@ export default function TodoItem({
                         }
                         onEditTodoItem(editInputValue, itemInfo.todo.id);
                         onResetInputMode();}}
-                        style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>
+                        style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 13px 4px"}}>
                         수정</button>
                     <div style={{flexGrow:1}}></div>
                     <button onClick={() => { onDeleteTodoItem(itemInfo.todo.id); }}
-                            style={{display:"flex", gap:4, border: "2px solid transparent",background:"var(--color-gray-2)", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>
+                            style={{display:"flex", gap:4, border: "2px solid transparent",background:"var(--color-gray-2)", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px 11px"}}>
                         <FiTrash2 size={18}/>
                         <span>삭제</span>
                     </button>
@@ -189,7 +189,7 @@ export default function TodoItem({
 
             {itemType==="default" && (
                 <div style={{display:'flex', alignItems:"center", flexDirection: "row", justifyContent:"space-between"}}>
-                <Content onClick={onEditTodo}
+                <Content onClick={onEditTodo} title={itemInfo.todo.content}
                          isDone={itemInfo.todo.isDone}>{itemInfo.todo.content}</Content>
                 <DoneButton style={{padding: 12, cursor:"pointer", display:"flex"}}
                             isDone={itemInfo.todo.isDone} 
