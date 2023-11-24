@@ -107,8 +107,6 @@ export default function TodoItem({
         onRefreshTodo();
     }
     
-    //console.log(itemInfo);
-
     return(
         <div style={{padding:"0",display:"flex",flexDirection: "column", width:"100%"}} >
             
@@ -117,7 +115,17 @@ export default function TodoItem({
                             autoFocus
                             type="text"
                             onChange={(e) => handleChangeAddInputValue(e)}
-                            onKeyDown={(e) => { if(e.key === "Enter") {onAddTodoItem();onResetInputMode();} }}
+                            onKeyDown={(e) => { 
+                                if(e.key === "Enter") {
+                                    if(addInputValue == "") {
+                                        alert("1글자 이상 입력해주세요.");
+                                        return;
+                                    }
+                                    onAddTodoItem();
+                                    onResetInputMode();
+                                }else if(e.key==="Escape"){
+                                    onResetInputMode();
+                                } }}
                 />
                 <Spacing size={8}/>
                 <div style={{display:"flex", gap: 8}}>
@@ -143,7 +151,17 @@ export default function TodoItem({
                             value={`${editInputValue}`}
                             type="text"
                             onChange={(e) => handleChangeEditInputValue(e)}
-                            onKeyDown={(e) => { if(e.key === "Enter") { onEditTodoItem(editInputValue, itemInfo.todo.id);onResetInputMode();} }}
+                            onKeyDown={(e) => { 
+                                if(e.key === "Enter") { 
+                                    if(editInputValue == "") {
+                                        alert("1글자 이상 입력해주세요.");
+                                        return;
+                                    }
+                                    onEditTodoItem(editInputValue, itemInfo.todo.id);
+                                    onResetInputMode();
+                                }else if(e.key === "Escape") {
+                                    onResetInputMode();
+                                }}}
                 />
                 <Spacing size={8}/>
                 <div style={{display:"flex", gap: 8}}>
@@ -194,6 +212,10 @@ const Content = styled.div<{isDone:boolean}>`
     cursor: text;
     text-decoration:  ${(props) => (props.isDone ? "line-through" : "none")};
     color: ${(props) => (props.isDone ? "#999" : "#FFF")};
+
+    &:before {
+        content: "";
+    }
 `;
 
 const DoneButton = styled.div<{isDone:boolean}>`
