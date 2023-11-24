@@ -145,7 +145,7 @@ export default function Main() {
           )}
 
           {todoItems.length > 0 && [...todoItems].map( (todo) =>  {
-            const isEditMode =
+            const isEditMode = // 렌더링 컨디션 지정을 위한 변수 
                   inputMode.type === "edit" && inputMode.item === todo;
             return (
               <div key={todo.id} style={{padding: "0", width:"100%"}}>

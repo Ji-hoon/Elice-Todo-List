@@ -130,7 +130,7 @@ export default function TodoItem({
                 <Spacing size={8}/>
                 <div style={{display:"flex", gap: 8}}>
                     <button onClick={onResetInputMode}
-                            style={{border: "2px solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>
+                            style={{border: "0.12em solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>
                         취소</button>
                     <button onClick={() => {
                             if(addInputValue == "") {
@@ -166,7 +166,7 @@ export default function TodoItem({
                 <Spacing size={8}/>
                 <div style={{display:"flex", gap: 8}}>
                     <button onClick={onResetInputMode} 
-                            style={{border: "2px solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>
+                            style={{border: "0.12em solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>
                         취소</button>
                     <button onClick={() => {
                         if(editInputValue == "") {
