@@ -80,8 +80,12 @@ export default function TodoItem({
         onRefreshTodo();
     }
 
-    function onEditTodoItem() {
-
+    function onEditTodoItem(editInputValue, itemId) {
+        const newTodo = JSON.parse(localStorage.getItem('todoData'));
+        const targetItem = newTodo.filter((item) => item.id === itemId );
+        targetItem[0].content = editInputValue;
+        localStorage.setItem('todoData', JSON.stringify(newTodo));
+        onRefreshTodo();
     }
 
     const onToggleDone = (id:string) => {
@@ -142,7 +146,7 @@ export default function TodoItem({
                             alert("1글자 이상 입력해주세요.");
                             return;
                         }
-                        onEditTodoItem();
+                        onEditTodoItem(editInputValue, itemInfo.todo.id);
                         onResetInputMode();}}
                         style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>
                         수정</button>
