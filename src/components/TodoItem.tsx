@@ -20,7 +20,9 @@ type TodoItemProps = {
     itemInfo: Object;
     onResetInputMode:Function;
     onRefreshTodo : Function;
+    onEditTodo: Function;
     currentDate: Date;
+    contentValue: string;
 }
 
 export default function TodoItem({
@@ -28,7 +30,9 @@ export default function TodoItem({
         itemInfo, 
         onResetInputMode,
         onRefreshTodo,
+        onEditTodo,
         currentDate,
+        contentValue,
     }:TodoItemProps) {
     
     //const [todoItems, setTodoItems] = useState<TodoItem[]>(todoItemsDummy);
@@ -41,12 +45,17 @@ export default function TodoItem({
 
     const [addInputValue, setAddInputValue] = useState("");
 
-    const [editInputValue, setEditInputValue] = useState("");
+    const [editInputValue, setEditInputValue] = useState(contentValue);
 
     function handleChangeAddInputValue(event:React.ChangeEvent<HTMLInputElement>) {
         setAddInputValue(event.target.value);
         //console.log(addInputValue);
     }
+
+    function handleChangeEditInputValue(event: React.ChangeEvent<HTMLInputElement>) {
+        setEditInputValue(event.target.value);
+      }
+    
 
     function onAddTodoItem() {
         // todoItems에 추가하고 인풋모드를 리셋한다.
@@ -71,6 +80,10 @@ export default function TodoItem({
         onRefreshTodo();
     }
 
+    function onEditTodoItem() {
+
+    }
+
     const onToggleDone = (id:string) => {
         //console.log(id);
         const newTodo = JSON.parse(localStorage.getItem('todoData'));
@@ -87,37 +100,63 @@ export default function TodoItem({
         <div style={{padding:"0",display:"flex",flexDirection: "column", width:"100%"}} >
             
             {itemType == "add" && ( <>
-                <input placeholder="할 일을 입력하세요"
-                    type="text"
-                    onChange={(e) => handleChangeAddInputValue(e)}
-                    onKeyDown={(e) => { if(e.key === "Enter") {onAddTodoItem();onResetInputMode();} }}
-                    style={{fontSize: "1em", padding: "0", 
-                        background: "transparent",
-                        border: "none", 
-                        borderBottom: "1px solid #FFF",
-                        outline: "none", color: "#FFF",height:51}}
+                <TodoInput placeholder="새로운 할 일을 추가하세요"
+                            autoFocus
+                            type="text"
+                            onChange={(e) => handleChangeAddInputValue(e)}
+                            onKeyDown={(e) => { if(e.key === "Enter") {onAddTodoItem();onResetInputMode();} }}
                 />
                 <Spacing size={8}/>
                 <div style={{display:"flex", gap: 8}}>
-                    <button onClick={onResetInputMode} style={{border: "2px solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>취소</button>
+                    <button onClick={onResetInputMode}
+                            style={{border: "2px solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>
+                        취소</button>
                     <button onClick={() => {
-                        if(addInputValue == "") {
+                            if(addInputValue == "") {
+                                alert("1글자 이상 입력해주세요.");
+                                return;
+                            }
+                            onAddTodoItem();
+                            onResetInputMode();}}
+                            style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>
+                        할 일 추가</button>
+                </div>
+                <Spacing size={8}/>
+            </>)}
+
+            {itemType == "edit" && ( <>
+                <TodoInput placeholder="수정할 내용을 입력하세요" 
+                            autoFocus
+                            value={editInputValue}
+                            type="text"
+                            onChange={(e) => handleChangeEditInputValue(e)}
+                            onKeyDown={(e) => { if(e.key === "Enter") {onEditTodoItem();onResetInputMode();} }}
+                />
+                <Spacing size={8}/>
+                <div style={{display:"flex", gap: 8}}>
+                    <button onClick={onResetInputMode} 
+                            style={{border: "2px solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>
+                        취소</button>
+                    <button onClick={() => {
+                        if(editInputValue == "") {
                             alert("1글자 이상 입력해주세요.");
                             return;
                         }
-                        onAddTodoItem();
+                        onEditTodoItem();
                         onResetInputMode();}}
-                        style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>저장</button>
+                        style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>
+                        수정</button>
                 </div>
                 <Spacing size={8}/>
             </>)}
 
             {itemType==="default" && (
                 <div style={{display:'flex', flexDirection: "row", justifyContent:"space-between"}}>
-                <Content isDone={itemInfo.todo.isDone}>{itemInfo.todo.content}</Content>
+                <Content onClick={onEditTodo}
+                         isDone={itemInfo.todo.isDone}>{itemInfo.todo.content}</Content>
                 <DoneButton style={{padding: 12, cursor:"pointer", display:"flex"}}
-                    isDone={itemInfo.todo.isDone} 
-                    onClick={()=> onToggleDone(itemInfo.todo.id)}>
+                            isDone={itemInfo.todo.isDone} 
+                            onClick={()=> onToggleDone(itemInfo.todo.id)}>
                   <FiCheck size={26} />
                 </DoneButton>
               </div>
@@ -135,6 +174,7 @@ const Content = styled.div<{isDone:boolean}>`
     text-overflow:ellipsis;
     user-select: none;
     font-size: 1em;
+    cursor: text;
     text-decoration:  ${(props) => (props.isDone ? "line-through" : "none")};
     color: ${(props) => (props.isDone ? "#999" : "#FFF")};
 `;
@@ -142,5 +182,35 @@ const Content = styled.div<{isDone:boolean}>`
 const DoneButton = styled.div<{isDone:boolean}>`
     & > * {
         color: ${(props) => (props.isDone ? "var(--color-primary)" : "var(--color-gray-1)")};
+    }
+`;
+
+const TodoInput = styled.input`
+    font-size: 1em;
+    padding:0;
+    font-family :var(--font-family);
+    background: transparent;
+    border: none; 
+    border-bottom: 1px solid transparent;
+    outline: none;
+    color: var(--color-white);
+    height:52px;
+
+    & ~ div {
+        position: relative;
+    }
+    & ~ div:nth-child(2):before {
+        content:'';
+        background-color: var(--color-white);
+        height: 1px;
+        position: absolute;
+        top: -2px;
+        transform: scaleX(0);
+        transform-origin: center;
+        width: 100%;
+    }
+    &:focus ~ div:nth-child(2):before {
+        transform: scaleX(1);
+        transition: transform 250ms cubic-bezier(0.57, 0.09, 0.46, 1.01);
     }
 `;

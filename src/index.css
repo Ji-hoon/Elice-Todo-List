@@ -9,7 +9,7 @@
   /* color-scheme: dark; */
 
   color: #FFF;
-  background-color: #1e1e1e;
+  background-color: var(--color-dark);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -21,6 +21,7 @@
   --color-gray-0 : #bcbcbc;
   --color-gray-1 : #666;
   --color-primary: #CFFF48;
+  --font-family : Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 body {

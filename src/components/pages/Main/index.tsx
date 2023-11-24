@@ -34,9 +34,10 @@ export default function Main() {
     setInputMode({type: "add"});
   }
 
-  function handleEditMode(item:TodoItemType) {
-    setInputMode({type: "edit", item:item});
-  } 
+  function handleEditMode(item: TodoItemType) {
+    setInputMode({ type: "edit", item : item});
+    setEditInputValue(item.content);
+  }
 
   function handleResetInputMode() {
     setInputMode(defaultInputMode);
@@ -95,11 +96,11 @@ export default function Main() {
 
   return (      
     <main style={{ maxWidth: 420, height: "100vh", margin: "0 auto",backgroundColor: "#1e1e1e",position:"relative",
-     border: "1px solid rgba(255,255,255,0.08)"}}>
+     border: "0px solid rgba(255,255,255,0.08)"}}>
       
       <button onClick={() => {
-        handleAddMode(); 
-        scrollToTop();}}
+        scrollToTop();
+        handleAddMode(); }}
             style={{borderRadius: 30, backgroundColor: "#CFFF48", top: "calc(100% - 70px)", left: "calc(100% - 70px)", display: "flex", position: "absolute",
             width: 48, height: 48, placeItems: "center",placeContent: "center", cursor:"pointer", border:"none", }}>
         <FiPlus color="var(--color-black)" size={30}/>
@@ -118,6 +119,8 @@ export default function Main() {
           
           {inputMode.type === "add" && (
             <TodoItem itemType="add" 
+                      contentValue={""} 
+                      onEditTodo={()=> {}}
                       onResetInputMode={handleResetInputMode}
                       onRefreshTodo={onRefreshTodo} 
                       itemInfo={{}}
@@ -125,15 +128,31 @@ export default function Main() {
           )}
 
           {todoItems.length > 0 && [...todoItems].map( (todo) =>  {
+            const isEditMode =
+                  inputMode.type === "edit" && inputMode.item === todo;
             return (
               <div key={todo.id} style={{padding: "0", width:"100%"}}>
-                {/* {inputMode === "edit" && inputMode.item} 
-                {inputMode.type!=="edit" && */}
-                    <TodoItem itemType="default" 
+               
+                {isEditMode && (
+                    <TodoItem itemType="edit" 
+                              contentValue={todo.content} 
+                              onEditTodo={()=> {}}
                               onResetInputMode={handleResetInputMode} 
                               onRefreshTodo={onRefreshTodo} 
                               itemInfo={{todo}}
                               currentDate={currentDate}/>
+
+                )}
+
+                {!isEditMode && (
+                    <TodoItem itemType="default" 
+                              contentValue={""} 
+                              onEditTodo={()=> handleEditMode(todo)}
+                              onResetInputMode={handleResetInputMode} 
+                              onRefreshTodo={onRefreshTodo} 
+                              itemInfo={{todo}}
+                              currentDate={currentDate}/>
+                )}
               </div>
               )
             })
@@ -150,12 +169,10 @@ export default function Main() {
             <div style={{height:"calc(100vh - 7em)", display:"flex", alignItems:"center", userSelect: "none",
             flexDirection: "column", justifyContent: "center", gap: 24, color: "var(--color-gray-0)",fontSize:"1.2em"}}>
                 <FiSmile size="48" color=""/>
-                <div>오늘은 할 일이 없네요!</div>
+                <div>오늘 등록된 할 일이 없네요!<br/>새로운 할 일을 추가해보세요.</div>
             </div>
           )}
-
           
-
         </div>
       </section>
     </main>
