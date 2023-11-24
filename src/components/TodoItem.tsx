@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { FiCheck, FiPlus, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from "react-icons/fi";
+import { FiCheck, FiTrash2, FiPlus, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from "react-icons/fi";
 
 import styled from "styled-components";
 import format from 'date-fns/format';
@@ -88,6 +88,15 @@ export default function TodoItem({
         onRefreshTodo();
     }
 
+    function onDeleteTodoItem(itemId) {
+        const newTodo = JSON.parse(localStorage.getItem('todoData'));
+        const targetItemIndex = newTodo.findIndex((item) => item.id === itemId );
+        console.log(targetItemIndex);
+        newTodo.splice(targetItemIndex, 1);
+        localStorage.setItem('todoData', JSON.stringify(newTodo));
+        onRefreshTodo();
+    }
+
     const onToggleDone = (id:string) => {
         //console.log(id);
         const newTodo = JSON.parse(localStorage.getItem('todoData'));
@@ -131,10 +140,10 @@ export default function TodoItem({
             {itemType == "edit" && ( <>
                 <TodoInput placeholder="수정할 내용을 입력하세요" 
                             autoFocus
-                            value={editInputValue}
+                            value={`${editInputValue}`}
                             type="text"
                             onChange={(e) => handleChangeEditInputValue(e)}
-                            onKeyDown={(e) => { if(e.key === "Enter") {onEditTodoItem();onResetInputMode();} }}
+                            onKeyDown={(e) => { if(e.key === "Enter") { onEditTodoItem(editInputValue, itemInfo.todo.id);onResetInputMode();} }}
                 />
                 <Spacing size={8}/>
                 <div style={{display:"flex", gap: 8}}>
@@ -150,12 +159,18 @@ export default function TodoItem({
                         onResetInputMode();}}
                         style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 12px 4px"}}>
                         수정</button>
+                    <div style={{flexGrow:1}}></div>
+                    <button onClick={() => { onDeleteTodoItem(itemInfo.todo.id); }}
+                            style={{display:"flex", gap:4, border: "2px solid transparent",background:"var(--color-gray-2)", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 12px 4px"}}>
+                        <FiTrash2 size={18}/>
+                        <span>삭제</span>
+                    </button>
                 </div>
                 <Spacing size={8}/>
             </>)}
 
             {itemType==="default" && (
-                <div style={{display:'flex', flexDirection: "row", justifyContent:"space-between"}}>
+                <div style={{display:'flex', alignItems:"center", flexDirection: "row", justifyContent:"space-between"}}>
                 <Content onClick={onEditTodo}
                          isDone={itemInfo.todo.isDone}>{itemInfo.todo.content}</Content>
                 <DoneButton style={{padding: 12, cursor:"pointer", display:"flex"}}
@@ -171,8 +186,6 @@ export default function TodoItem({
 }
 
 const Content = styled.div<{isDone:boolean}>`
-    display: flex;
-    align-items: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow:ellipsis;
