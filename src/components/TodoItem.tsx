@@ -164,7 +164,7 @@ export default function TodoItem({
                                 }}}
                 />
                 <Spacing size={8}/>
-                <div style={{display:"flex", gap: 8}}>
+                <div style={{display:"flex", gap: 8, width: "calc(100% - 0.5em)"}}>
                     <button onClick={onResetInputMode} 
                             style={{border: "0.12em solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px"}}>
                         취소</button>
@@ -235,10 +235,10 @@ const TodoInput = styled.input`
     color: var(--color-white);
     height:52px;
 
-    & ~ div {
+    & + div {
         position: relative;
     }
-    & ~ div:nth-child(2):before {
+    & + div:nth-child(2):before {
         content:'';
         background-color: var(--color-white);
         height: 1px;
@@ -246,9 +246,9 @@ const TodoInput = styled.input`
         top: -2px;
         transform: scaleX(0);
         transform-origin: center;
-        width: 100%;
+        width: calc(100% - 0.5em);
     }
-    &:focus ~ div:nth-child(2):before {
+    &:focus + div:nth-child(2):before {
         transform: scaleX(1);
         transition: transform 250ms cubic-bezier(0.57, 0.09, 0.46, 1.01);
     }

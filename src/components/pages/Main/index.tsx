@@ -135,7 +135,7 @@ export default function Main() {
                 today={today}/>
        
         <div className="todoItemList" ref={todoItemListRef} 
-            style={{display:"flex", flexDirection: "column", alignItems:"center",padding: "1em 1em 2em 1.5em"}}>
+            style={{display:"flex", flexDirection: "column", alignItems:"center",padding: "1em 1em 2.5em 1.5em"}}>
           
           {inputMode.type === "add" && (
             <TodoItem itemType="add" 
