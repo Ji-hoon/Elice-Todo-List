@@ -9,12 +9,21 @@
   /* color-scheme: dark; */
 
   color: #FFF;
-  background-color: #FFF;
+  background-color: var(--color-dark);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --color-white: #FFF;
+  --color-dark: #1e1e1e;
+  --color-gray-0 : #bcbcbc;
+  --color-gray-1 : #666;
+  --color-gray-2 : #3a3a3a;
+  --color-primary: #CFFF48;
+  --color-alert: rgb(218, 26, 26);
+  --font-family : Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 body {
