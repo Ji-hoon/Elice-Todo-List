@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import '../../../index.css';
 
 import { FiCheck, FiPlus, FiCoffee, FiLoader, FiSmile, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from "react-icons/fi";
@@ -32,6 +32,7 @@ export default function Main() {
   //console.log(currentDate);
   const todoItemListRef = useRef(null);
   const mainRef = useRef(null);
+  const addInputElementRef = useRef(null);
 
   function handleAddMode() {
     setInputMode({type: "add"});
@@ -137,15 +138,7 @@ export default function Main() {
         <div className="todoItemList" ref={todoItemListRef} 
             style={{display:"flex", flexDirection: "column", alignItems:"center",padding: "1em 1em 2.5em 1.5em"}}>
           
-          {inputMode.type === "add" && (
-            <TodoItem itemType="add" 
-                      contentValue={""} 
-                      onEditTodo={()=> {}}
-                      onResetInputMode={handleResetInputMode}
-                      onRefreshTodo={onRefreshTodo} 
-                      itemInfo={{}}
-                      currentDate={currentDate}/>
-          )}
+          
 
           {todoItems.length > 0 && [...todoItems].map( (todo) =>  {
             const isEditMode = // 렌더링 컨디션 지정을 위한 변수 
@@ -177,6 +170,16 @@ export default function Main() {
               )
             })
           }
+
+          {inputMode.type === "add" && (
+            <TodoItem itemType="add" 
+                      contentValue={""} 
+                      onEditTodo={()=> {}}
+                      onResetInputMode={handleResetInputMode}
+                      onRefreshTodo={onRefreshTodo} 
+                      itemInfo={{}}
+                      currentDate={currentDate}/>
+          )}
           
           { isListOverflow &&  (
             <div style={{display:"flex", justifyContent:"center", width:"fit-content", margin: "2em 0 0", cursor:"pointer"}}
