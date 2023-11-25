@@ -188,15 +188,15 @@ export default function TodoItem({
             </>)}
 
             {itemType==="default" && (
-                <div style={{display:'flex', alignItems:"center", flexDirection: "row", justifyContent:"space-between"}}>
-                <Content onClick={onEditTodo} title={itemInfo.todo.content}
-                         isDone={itemInfo.todo.isDone}>{itemInfo.todo.content}</Content>
-                <DoneButton style={{padding: 12, cursor:"pointer", display:"flex"}}
-                            isDone={itemInfo.todo.isDone} 
-                            onClick={()=> onToggleDone(itemInfo.todo.id)}>
-                  <FiCheck size={26} />
-                </DoneButton>
-              </div>
+                <div style={{display:'flex', alignItems:"center", flexDirection: "row", justifyContent:"space-between", gap: 8}}>
+                    <Content onClick={onEditTodo} title={itemInfo.todo.content}
+                            isDone={itemInfo.todo.isDone}>{itemInfo.todo.content}</Content>
+                    <DoneButton style={{padding: 12, cursor:"pointer", display:"flex"}}
+                                isDone={itemInfo.todo.isDone} 
+                                onClick={()=> onToggleDone(itemInfo.todo.id)}>
+                    <FiCheck size={26} />
+                    </DoneButton>
+                </div>
             )}
 
         </div>  
@@ -210,6 +210,7 @@ const Content = styled.div<{isDone:boolean}>`
     user-select: none;
     font-size: 1em;
     cursor: text;
+    flex-grow: 1;
     text-decoration:  ${(props) => (props.isDone ? "line-through" : "none")};
     color: ${(props) => (props.isDone ? "#999" : "#FFF")};
 

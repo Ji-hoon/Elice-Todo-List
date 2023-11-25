@@ -62,7 +62,7 @@ export default function Main() {
   const scrollToTop = ():void => {
     const element = elementRef.current;
     if (element) {
-      element.scrollTo({top:0, behavior:"smooth"});
+      element.scrollTo({top:900, behavior:"smooth"});
     }
   };
 
@@ -117,10 +117,10 @@ export default function Main() {
      border: "0px solid rgba(255,255,255,0.08)"}}>
       
       <button onClick={() => { 
-                scrollToTop();
+                handleAddMode();
                 setTimeout(() => {
-                  handleAddMode();
-                },100);
+                  scrollToTop();
+                },200);
               }}
             style={{borderRadius: 30, backgroundColor: "#CFFF48", top: "calc(100% - 70px)", left: "calc(100% - 70px)", display: "flex", position: "absolute",
             width: 48, height: 48, placeItems: "center",placeContent: "center", cursor:"pointer", border:"none", zIndex:12 }}>
