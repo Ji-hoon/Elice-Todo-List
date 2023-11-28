@@ -122,7 +122,7 @@ export default function Main() {
                   scrollToTop();
                 },200);
               }}
-            style={{borderRadius: 30, backgroundColor: "#CFFF48", top: "calc(100% - 70px)", left: "calc(100% - 70px)", display: "flex", position: "absolute",
+            style={{borderRadius: 30, backgroundColor: "#CFFF48", color: "var(--color-dark)", top: "calc(100% - 70px)", left: "calc(100% - 70px)", display: "flex", position: "absolute",
             width: 48, height: 48, placeItems: "center",placeContent: "center", cursor:"pointer", border:"none", zIndex:12 }}>
         <FiPlus color="var(--color-black)" size={30}/>
       </button>

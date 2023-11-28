@@ -178,8 +178,9 @@ export default function TodoItem({
                         style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 13px 4px"}}>
                         수정</button>
                     <div style={{flexGrow:1}}></div>
-                    <button onClick={() => { onDeleteTodoItem(itemInfo.todo.id); }}
-                            style={{display:"flex", gap:4, border: "2px solid transparent",background:"var(--color-gray-2)", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px 11px"}}>
+                    <button className="shadow-sm"
+                    onClick={() => { onDeleteTodoItem(itemInfo.todo.id); }}
+                            style={{display:"flex", alignItems:"center", gap:4, border: "2px solid transparent",background:"var(--color-gray-2)", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px 11px"}}>
                         <FiTrash2 size={18}/>
                         <span>삭제</span>
                     </button>
