@@ -192,7 +192,7 @@ export default function Main() {
             <div style={{height:"calc(100vh - 7em)", display:"flex", alignItems:"center", userSelect: "none", textAlign:"center",
             flexDirection: "column", justifyContent: "center", gap: 24, color: "var(--color-gray-0)",fontSize:"1.2em"}}>
                 <FiCoffee size="48" color=""/>
-                <div>등록된 할 일이 없네요!<br/>커피 한 잔의 여유를 즐겨보세요.</div>
+                <div className="text-xl font-bold">등록된 할 일이 없네요!<br/>커피 한 잔의 여유를 즐겨보세요.</div>
             </div>
           )}
           
