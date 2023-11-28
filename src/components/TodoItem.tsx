@@ -240,12 +240,21 @@ const TodoInput = styled.input`
     & + div {
         position: relative;
     }
+    & + div:nth-child(2):after {
+        content: '';
+        top: -3px;
+        left: 0;
+        right: 8px;
+        height: 1px;
+        background-color: var(--color-gray-1);
+        position: absolute;
+    }
     & + div:nth-child(2):before {
         content:'';
         background-color: var(--color-white);
-        height: 1px;
+        height: 2px;
         position: absolute;
-        top: -2px;
+        top: -3px;
         transform: scaleX(0);
         transform-origin: center;
         width: calc(100% - 0.5em);
