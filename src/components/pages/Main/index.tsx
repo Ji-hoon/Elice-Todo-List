@@ -33,6 +33,8 @@ export default function Main() {
   const todoItemListRef = useRef(null);
   const mainRef = useRef(null);
   const addInputElementRef = useRef(null);
+  
+  const [theme, setTheme] = useState("theme-dark");
 
   function handleAddMode() {
     setInputMode({type: "add"});
@@ -57,6 +59,15 @@ export default function Main() {
     const newDate = subDays(currentDate, 1);
     //console.log(newDate);
     setCurrentDate(newDate);
+  }
+
+  function toggleTheme():void {
+    if(theme === "theme-dark") {
+      setTheme("theme-light");
+    } else {
+      setTheme("theme-dark");
+    }
+    console.log(theme);
   }
 
   const scrollToTop = ():void => {
@@ -112,19 +123,18 @@ export default function Main() {
 
 
   return (      
-    <main ref={mainRef}
-          style={{ maxWidth: 420, height: "100vh", margin: "0 auto",backgroundColor: "#1e1e1e",position:"relative",
-     border: "0px solid rgba(255,255,255,0.08)"}}>
+    <main ref={mainRef} className={theme}
+          style={{ maxWidth: 420, height: "100vh", margin: "0 auto",backgroundColor: "var(--color-background)",position:"relative",transition:"var(--transition-ease-out)"}}>
       
-      <button onClick={() => { 
+      <button onClick={() => {
                 handleAddMode();
                 setTimeout(() => {
                   scrollToTop();
                 },200);
               }}
-            style={{borderRadius: 30, backgroundColor: "#CFFF48", color: "var(--color-dark)", top: "calc(100% - 70px)", left: "calc(100% - 70px)", display: "flex", position: "absolute",
+            style={{borderRadius: 30, backgroundColor: "var(--color-primary)", color: "var(--color-dark)", top: "calc(100% - 70px)", left: "calc(100% - 70px)", display: "flex", position: "absolute",
             width: 48, height: 48, placeItems: "center",placeContent: "center", cursor:"pointer", border:"none", zIndex:12 }}>
-        <FiPlus color="var(--color-black)" size={30}/>
+        <FiPlus color="var(--color-gray-3)" size={30}/>
       </button>
 
       <section ref={elementRef} 
@@ -132,11 +142,14 @@ export default function Main() {
         
         <Header handleMovePrevDate={() => handleMovePrevDate()}
                 handleMoveNextDate={() => handleMoveNextDate()}
-                currentDate={currentDate}
+                currentDate={currentDate} 
+                theme={theme}
+                toggleTheme={toggleTheme} 
+                handleMoveHome ={true}
                 today={today}/>
        
         <div className="todoItemList" ref={todoItemListRef} 
-            style={{display:"flex", flexDirection: "column", alignItems:"center",padding: "1em 1em 2.5em 1.5em"}}>
+            style={{display:"flex", flexDirection: "column", alignItems:"center",padding: "1em 1em 2.5em 1em"}}>
           
           
 
@@ -153,6 +166,7 @@ export default function Main() {
                               onResetInputMode={handleResetInputMode} 
                               onRefreshTodo={onRefreshTodo} 
                               itemInfo={{todo}}
+                              theme={theme}
                               currentDate={currentDate}/>
 
                 )}
@@ -164,6 +178,7 @@ export default function Main() {
                               onResetInputMode={handleResetInputMode} 
                               onRefreshTodo={onRefreshTodo} 
                               itemInfo={{todo}}
+                              theme={theme}
                               currentDate={currentDate}/>
                 )}
               </div>
@@ -178,6 +193,7 @@ export default function Main() {
                       onResetInputMode={handleResetInputMode}
                       onRefreshTodo={onRefreshTodo} 
                       itemInfo={{}}
+                      theme={theme}
                       currentDate={currentDate}/>
           )}
           
@@ -190,7 +206,7 @@ export default function Main() {
 
           {(todoItems.length == 0 && inputMode.type !== "add") && (
             <div style={{height:"calc(100vh - 7em)", display:"flex", alignItems:"center", userSelect: "none", textAlign:"center",
-            flexDirection: "column", justifyContent: "center", gap: 24, color: "var(--color-gray-0)",fontSize:"1.2em"}}>
+            flexDirection: "column", justifyContent: "center", gap: 24, color: "var(--color-text)",fontSize:"1.2em",opacity:"0.5"}}>
                 <FiCoffee size="48" color=""/>
                 <div className="text-xl font-bold">등록된 할 일이 없네요!<br/>커피 한 잔의 여유를 즐겨보세요.</div>
             </div>

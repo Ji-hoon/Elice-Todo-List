@@ -23,6 +23,7 @@ type TodoItemProps = {
     onEditTodo: Function;
     currentDate: Date;
     contentValue: string;
+    theme:string;
 }
 
 export default function TodoItem({
@@ -33,6 +34,7 @@ export default function TodoItem({
         onEditTodo,
         currentDate,
         contentValue,
+        theme,
     }:TodoItemProps) {
     
     //const [todoItems, setTodoItems] = useState<TodoItem[]>(todoItemsDummy);
@@ -108,7 +110,7 @@ export default function TodoItem({
     }
     
     return(
-        <div style={{padding:"0",display:"flex",flexDirection: "column", width:"100%"}} >
+        <div style={{padding:"0",display:"flex",flexDirection: "column", width:"100%", paddingLeft:"0.125em"}} >
             
             {itemType == "add" && ( <>
                 <TodoInput placeholder="새로운 할 일을 추가하세요"
@@ -128,9 +130,11 @@ export default function TodoItem({
                                 } }}
                 />
                 <Spacing size={8}/>
-                <div style={{display:"flex", gap: 8}}>
+                <div style={{display:"flex", gap: 8, paddingRight:"0.25em"}}>
                     <button onClick={onResetInputMode}
-                            style={{border: "0.12em solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px"}}>
+                            style={theme === "theme-dark" 
+                                   ? {border: "0.12em solid var(--color-gray-1)",background:"transparent", color: "var(--color-gray-0)", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px"}
+                                   : {border: "0.12em solid var(--color-gray-0)",background:"transparent", color: "var(--color-gray-1)", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px"}}>
                         취소</button>
                     <button onClick={() => {
                             if(addInputValue == "") {
@@ -164,9 +168,11 @@ export default function TodoItem({
                                 }}}
                 />
                 <Spacing size={8}/>
-                <div style={{display:"flex", gap: 8, width: "calc(100% - 0.5em)"}}>
+                <div style={{display:"flex", gap: 8, paddingRight:"0.25em"}}>
                     <button onClick={onResetInputMode} 
-                            style={{border: "0.12em solid #CFFF48",background:"transparent", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px"}}>
+                            style={theme === "theme-dark" 
+                            ? {border: "0.12em solid var(--color-gray-1)",background:"transparent", color: "var(--color-gray-0)", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px"}
+                            : {border: "0.12em solid var(--color-gray-0)",background:"transparent", color: "var(--color-gray-1)", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px"}}>
                         취소</button>
                     <button onClick={() => {
                         if(editInputValue == "") {
@@ -175,12 +181,14 @@ export default function TodoItem({
                         }
                         onEditTodoItem(editInputValue, itemInfo.todo.id);
                         onResetInputMode();}}
-                        style={{border:"none", background:"#CFFF48", color: "#000", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 13px 4px"}}>
+                        style={{border:"none", background:"var(--color-primary)", color: "var(--color-gray-3)", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 13px 4px"}}>
                         수정</button>
                     <div style={{flexGrow:1}}></div>
-                    <button className="shadow-sm"
+                    <button 
                     onClick={() => { onDeleteTodoItem(itemInfo.todo.id); }}
-                            style={{display:"flex", alignItems:"center", gap:4, border: "2px solid transparent",background:"var(--color-gray-2)", color: "#CFFF48", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px 11px"}}>
+                            style={theme === "theme-dark" 
+                            ? {display:"flex", alignItems:"center", gap:4, border: "2px solid var(--color-background)",background:"var(--color-gray-2)", color: "var(--color-text)", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px 11px"}
+                            : {display:"flex", alignItems:"center", gap:4, border: "2px solid var(--color-background)",background:"var(--color-gray-0)", color: "var(--color-text)", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px 11px"}}>
                         <FiTrash2 size={18}/>
                         <span>삭제</span>
                     </button>
@@ -189,20 +197,37 @@ export default function TodoItem({
             </>)}
 
             {itemType==="default" && (
-                <div style={{display:'flex', alignItems:"center", flexDirection: "row", justifyContent:"space-between", gap: 8}}>
-                    <Content onClick={onEditTodo} title={itemInfo.todo.content}
+                <TodoListItem theme={theme} onClick={onEditTodo}  title={itemInfo.todo.content}>
+                    <Content 
                             isDone={itemInfo.todo.isDone}>{itemInfo.todo.content}</Content>
                     <DoneButton style={{padding: 12, cursor:"pointer", display:"flex"}}
                                 isDone={itemInfo.todo.isDone} 
                                 onClick={()=> onToggleDone(itemInfo.todo.id)}>
-                    <FiCheck size={26} />
+                        <FiCheck size={26} />
                     </DoneButton>
-                </div>
+                </TodoListItem>
             )}
 
         </div>  
     )
 }
+
+const TodoListItem = styled.div<{theme:string}>`
+    display:flex;
+    align-items:center;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 8px;
+    border-radius: 4px;
+    padding-left: 0.75em;
+    transition: var(--transition-ease-out);
+
+    
+    &:hover {
+        cursor:text;
+        background-color: ${(props) => ( props.theme === "theme-dark" ? "var(--color-gray-2)" : "var(--color-light-gray-0)")};
+    }
+`;
 
 const Content = styled.div<{isDone:boolean}>`
     white-space: nowrap;
@@ -210,10 +235,9 @@ const Content = styled.div<{isDone:boolean}>`
     text-overflow:ellipsis;
     user-select: none;
     font-size: 1em;
-    cursor: text;
     flex-grow: 1;
     text-decoration:  ${(props) => (props.isDone ? "line-through" : "none")};
-    color: ${(props) => (props.isDone ? "#999" : "#FFF")};
+    color: ${(props) => (props.isDone ? "var(--color-gray-1)" : "var(--color-text)")};
 
     &:before {
         content: "";
@@ -222,7 +246,7 @@ const Content = styled.div<{isDone:boolean}>`
 
 const DoneButton = styled.div<{isDone:boolean}>`
     & > * {
-        color: ${(props) => (props.isDone ? "var(--color-primary)" : "var(--color-gray-1)")};
+        color: ${(props) => (props.isDone ? "var(--color-primary-deep)" : "var(--color-gray-1)")};
     }
 `;
 
@@ -234,7 +258,8 @@ const TodoInput = styled.input`
     border: none; 
     border-bottom: 1px solid transparent;
     outline: none;
-    color: var(--color-white);
+    padding-left: 0.75em;
+    color: var(--color-text);
     height:52px;
 
     & + div {
@@ -251,7 +276,7 @@ const TodoInput = styled.input`
     }
     & + div:nth-child(2):before {
         content:'';
-        background-color: var(--color-white);
+        background-color: var(--color-text);
         height: 2px;
         position: absolute;
         top: -3px;
