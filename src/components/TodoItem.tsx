@@ -258,6 +258,7 @@ const TodoInput = styled.input`
         transform: scaleX(0);
         transform-origin: center;
         width: calc(100% - 0.5em);
+        z-index:1;
     }
     &:focus + div:nth-child(2):before {
         transform: scaleX(1);
