@@ -203,7 +203,7 @@ export default function TodoItem({
                     <DoneButton style={{padding: 12, cursor:"pointer", display:"flex"}}
                                 isDone={itemInfo.todo.isDone} 
                                 onClick={()=> onToggleDone(itemInfo.todo.id)}>
-                        <FiCheck size={26} />
+                        <FiCheck size={26} strokeWidth={3} />
                     </DoneButton>
                 </TodoListItem>
             )}
