@@ -11,10 +11,11 @@ import { TodoItemType, InputMode } from "../../../types/index.ts";
 import TodoItem from "../../TodoItem.tsx";
 import Header from "../../Header.tsx";
 import TodoItemsListHeader from "./TodoItemsRate/index.tsx";
+import SelectFilter from "./SelectFilter/index.tsx";
 
 import styled from "styled-components";
-import { useRecoilState } from "recoil";
-import {todoItemsAtom} from "../../Atoms/todoItemsAtom.ts";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { todoItemsAtom, filteredTodoItemsSelector } from "../../Atoms/todoItemsAtom.ts";
 
 const defaultInputMode: InputMode = {type: "default"};
 
@@ -23,7 +24,13 @@ const today = format( new Date(), "MM월 dd일");
 export default function Main() {
 
   const [currentDate, setCurrentDate] = useState( new Date() );
-  const [todoItems, setTodoItems] = useRecoilState(todoItemsAtom);
+
+  // const [todoItems, setTodoItems] = useRecoilState(todoItemsAtom);
+  const setTodoItems = useSetRecoilState(todoItemsAtom);
+  const filteredTodoItems = useRecoilValue(filteredTodoItemsSelector)
+  // filteredTodoItems에는 아래를 참고해서 필터된 밸류를 할당하고, 기존 todoItems를 바꾼다.
+  // const percentage = useRecoilValue(todoItemsProgressPercentageSelector);
+
 
   const [editInputValue, setEditInputValue] = useState("");
   
@@ -122,7 +129,7 @@ export default function Main() {
   useEffect( () => {
     onRefreshTodo();
     handleResetInputMode();
-  }, [currentDate,]);
+  }, [currentDate, ]);
 
 
   return (      
@@ -154,9 +161,12 @@ export default function Main() {
         <div className="todoItemList" ref={todoItemListRef} 
             style={{display:"flex", flexDirection: "column", alignItems:"center",padding: "1em 1em 2.5em 1em"}}>
           
-          <TodoItemsListHeader />
+          <div style={{display:"flex", width:"100%", alignItems:"center", padding: "0 0 0.5em"}}>
+            <TodoItemsListHeader />
+            <SelectFilter />
+          </div>
 
-          {todoItems.length > 0 && [...todoItems].map( (todo) =>  {
+          {filteredTodoItems.length > 0 && [...filteredTodoItems].map( (todo) =>  {
             const isEditMode = // 렌더링 컨디션 지정을 위한 변수 
                   inputMode.type === "edit" && inputMode.item === todo;
             return (
@@ -207,7 +217,7 @@ export default function Main() {
             </div>
           )}
 
-          {(todoItems.length == 0 && inputMode.type !== "add") && (
+          {(filteredTodoItems.length == 0 && inputMode.type !== "add") && (
             <div style={{height:"calc(100vh - 7em)", display:"flex", alignItems:"center", userSelect: "none", textAlign:"center",
             flexDirection: "column", justifyContent: "center", gap: 24, color: "var(--color-text)",fontSize:"1.2em",opacity:"0.5"}}>
                 <FiCoffee size="48" color=""/>
