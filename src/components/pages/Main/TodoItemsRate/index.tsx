@@ -6,6 +6,6 @@ export default function TodoItemsListHeader() {
     const percentage = useRecoilValue(todoItemsProgressPercentageSelector);
 
     return (
-        <p style={{color: "var(--color-text)", padding: "0.25em 0.75em 1em", width: "100%", fontSize: 18}}>🎯 달성률 : {percentage}%</p>
+        <p style={{color: "var(--color-text)", padding: "0.25em 0.75em 1em", width: "100%", fontSize: 16}}>🎯 달성률 : {percentage}%</p>
     )
 }
