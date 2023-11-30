@@ -23,7 +23,7 @@ export const todoItemsProgressPercentageSelector = selector ({
 })
 
 export const filterAtom = atom<FilterType>({
-    key:"fitlerAtom",
+    key: "fitlerAtom",
     default : "all",
 })
 
@@ -46,3 +46,8 @@ export const filteredTodoItemsSelector = selector({
         }
     }
 })
+
+export const currentDateAtom = atom({
+    key: "currentDateAtom",
+    default : new Date(),
+});

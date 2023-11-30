@@ -15,7 +15,7 @@ import SelectFilter from "./SelectFilter/index.tsx";
 
 import styled from "styled-components";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { todoItemsAtom, filteredTodoItemsSelector } from "../../Atoms/todoItemsAtom.ts";
+import { todoItemsAtom, filteredTodoItemsSelector, currentDateAtom } from "../../Atoms/todoItemsAtom.ts";
 
 const defaultInputMode: InputMode = {type: "default"};
 
@@ -23,7 +23,8 @@ const today = format( new Date(), "MM월 dd일");
 
 export default function Main() {
 
-  const [currentDate, setCurrentDate] = useState( new Date() );
+  //const [currentDate, setCurrentDate] = useState( new Date() );
+  const [currentDate, setCurrentDate] = useRecoilState(currentDateAtom);
 
   // const [todoItems, setTodoItems] = useRecoilState(todoItemsAtom);
   const setTodoItems = useSetRecoilState(todoItemsAtom);
@@ -152,7 +153,6 @@ export default function Main() {
         
         <Header handleMovePrevDate={() => handleMovePrevDate()}
                 handleMoveNextDate={() => handleMoveNextDate()}
-                currentDate={currentDate} 
                 theme={theme}
                 toggleTheme={toggleTheme} 
                 handleMoveHome ={true}
