@@ -161,7 +161,8 @@ export default function Main() {
         <div className="todoItemList" ref={todoItemListRef} 
             style={{display:"flex", flexDirection: "column", alignItems:"center",padding: "1em 1em 2.5em 1em"}}>
           
-          <div style={{display:"flex", width:"100%", alignItems:"center", padding: "0 0 0.5em"}}>
+          <div style={{display:"flex", width:"100%", alignItems:"center", padding: "0 0 0.75em",borderBottom: "1px solid var(--color-gray-2)", marginBottom: "0.5em",
+              position: "sticky", top: 83, background: "var(--color-background)", boxShadow: "0 -14px 0 0 var(--color-background)", transition:"var(--transition-ease-out)"}}>
             <TodoItemsListHeader />
             <SelectFilter />
           </div>

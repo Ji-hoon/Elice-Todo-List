@@ -8,7 +8,7 @@ export default function TodoItemsListHeader() {
 
     return (
         <p style={{userSelect:"none", color: "var(--color-text)", padding: "0.25em 0.75em", width: "100%", fontSize: 16}}>
-            🎯 달성률 : <span style={{color: "var(--color-text)", fontWeight:700}}>{percentage}%</span>
+            <span style={{fontSize:20, paddingRight:4}}>🎯</span> 달성률 : <span style={{color: "var(--color-text)", fontWeight:700}}>{percentage}%</span>
         </p>
     )
 }
