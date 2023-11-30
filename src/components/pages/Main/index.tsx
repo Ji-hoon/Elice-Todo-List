@@ -10,8 +10,11 @@ import subDays from 'date-fns/subDays';
 import { TodoItemType, InputMode } from "../../../types/index.ts";
 import TodoItem from "../../TodoItem.tsx";
 import Header from "../../Header.tsx";
+import TodoItemsListHeader from "./TodoItemsRate/index.tsx";
 
 import styled from "styled-components";
+import { useRecoilState } from "recoil";
+import {todoItemsAtom} from "../../Atoms/todoItemsAtom.ts";
 
 const defaultInputMode: InputMode = {type: "default"};
 
@@ -20,7 +23,7 @@ const today = format( new Date(), "MM월 dd일");
 export default function Main() {
 
   const [currentDate, setCurrentDate] = useState( new Date() );
-  const [todoItems, setTodoItems] = useState<TodoItemType[]>([]);
+  const [todoItems, setTodoItems] = useRecoilState(todoItemsAtom);
 
   const [editInputValue, setEditInputValue] = useState("");
   
@@ -147,11 +150,11 @@ export default function Main() {
                 toggleTheme={toggleTheme} 
                 handleMoveHome ={true}
                 today={today}/>
-       
+               
         <div className="todoItemList" ref={todoItemListRef} 
             style={{display:"flex", flexDirection: "column", alignItems:"center",padding: "1em 1em 2.5em 1em"}}>
           
-          
+          <TodoItemsListHeader />
 
           {todoItems.length > 0 && [...todoItems].map( (todo) =>  {
             const isEditMode = // 렌더링 컨디션 지정을 위한 변수 
