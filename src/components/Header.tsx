@@ -63,6 +63,7 @@ export default function Header({
 
 const ToggleButton = styled.div`
   & > svg {
+    color: inherit;
     animation: var(--quarter-rotate-animation);
     will-change: transform;
   }
