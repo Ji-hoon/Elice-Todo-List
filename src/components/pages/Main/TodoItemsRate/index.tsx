@@ -1,5 +1,6 @@
 import {useRecoilValue} from "recoil";
 import { todoItemsProgressPercentageSelector } from "../../../Atoms/todoItemsAtom.ts";
+import styled from "styled-components";
 
 
 export default function TodoItemsListHeader() {
@@ -8,7 +9,12 @@ export default function TodoItemsListHeader() {
 
     return (
         <p style={{userSelect:"none", color: "var(--color-text)", padding: "0.25em 0.75em", width: "100%", fontSize: 16}}>
-            <span style={{fontSize:20, paddingRight:4}}>🎯</span> 달성률 : <span style={{color: "var(--color-text)", fontWeight:700}}>{percentage}%</span>
+            <span style={{fontSize:20, paddingRight:4}}>🎯</span> 달성률 : &nbsp;
+            <PercentageValue value={percentage}>{percentage}%</PercentageValue>
         </p>
     )
 }
+const PercentageValue = styled.span<{value:number}>`
+    font-weight:700;
+    color: ${(props) => ( props.value === 100 ? "var(--color-primary-deep)" : "var(--color-text)")};
+`
