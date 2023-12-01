@@ -19,6 +19,7 @@
 
   --transition-ease-out : all 200ms ease-out;
   --font-family : Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --quarter-rotate-animation : rotate 400ms cubic-bezier(0.57, 0.09, 0.33, 1.06) forwards;
 }
 
 body {
@@ -56,4 +57,13 @@ body {
   --color-alert: rgb(218, 26, 26);
 
   --shadow-header: 0 1px 0 0 rgba(0,0,0,0.12);
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(-25deg);
+  }
+  to {
+    transform: rotate(10deg);
+  }
 }

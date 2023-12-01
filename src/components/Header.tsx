@@ -5,6 +5,7 @@ import { FiCheck, FiPlus, FiMoon, FiSun, FiHome, FiChevronLeft, FiChevronRight, 
 
 import { useRecoilValue } from 'recoil';
 import { todoItemsAtom, filteredTodoItemsSelector, currentDateAtom } from "../components/Atoms/todoItemsAtom.ts";
+import styled from "styled-components";
 
 import format from 'date-fns/format';
 import { colors } from '../theme/color.ts';
@@ -51,11 +52,18 @@ export default function Header({
               style={{padding: 12, cursor:"pointer", display:"flex"}}>
             <FiChevronRight size={24}/>
           </div>
-          <div onClick={toggleTheme} 
+          <ToggleButton onClick={toggleTheme} 
               style={{padding: 12, cursor:"pointer", display:"flex"}}>
             {theme==="theme-dark" && <FiMoon size={24}/>}
             {theme==="theme-light" && <FiSun size={24}/>}
-          </div>
+          </ToggleButton>
         </header>
     )
 }
+
+const ToggleButton = styled.div`
+  & > svg {
+    animation: var(--quarter-rotate-animation);
+    will-change: transform;
+  }
+`
