@@ -6,7 +6,7 @@ export type TodoItemType = {
   }
 export type InputMode = {
     type: "add" | "edit" | "default";
-    item?: TodoItem;
+    item?: TodoItemType;
 }
 export type FilterType = {
     type: "all" | "done" | "not yet",

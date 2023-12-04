@@ -1,13 +1,16 @@
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { filterAtom } from "../../../Atoms/todoItemsAtom.ts";
 import { FiChevronDown } from "react-icons/fi";
 import styled from "styled-components";
 
+type FilterProps = {
+    theme:string;
+}
 
-export default function SelectFilter({theme}) {
+export default function SelectFilter({theme}:FilterProps) {
     const [filter, setFilter] = useRecoilState(filterAtom);
 
-    function handleChange(event:React.ChangeEvent) {
+    function handleChange(event:React.ChangeEvent<HTMLSelectElement>) {
         setFilter(event.target.value);
     }
     return (
