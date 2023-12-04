@@ -223,7 +223,7 @@ export default function Main() {
           )} */}
 
           {(filteredTodoItems != undefined && filteredTodoItems.length == 0 && inputMode.type !== "add") && (
-            <div style={{height:"calc(100vh - 7em)", display:"flex", alignItems:"center", userSelect: "none", textAlign:"center",
+            <div style={{height:"calc(100vh - 12em)", display:"flex", alignItems:"center", userSelect: "none", textAlign:"center",
             flexDirection: "column", justifyContent: "center", gap: 24, color: "var(--color-text)",fontSize:"1.2em",opacity:"0.5"}}>
                 <FiCoffee size="48" color=""/>
                 <div className="text-xl font-bold">등록된 할 일이 없네요!<br/>커피 한 잔의 여유를 즐겨보세요.</div>
