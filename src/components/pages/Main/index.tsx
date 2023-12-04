@@ -139,7 +139,7 @@ export default function Main() {
 
   return (      
     <main ref={mainRef} className={theme}
-          style={{ maxWidth: 420, height: "100vh", margin: "0 auto",backgroundColor: "var(--color-background)",position:"relative",transition:"var(--transition-ease-out)"}}>
+          style={{ maxWidth: 420, height: "100%", margin: "0 auto",backgroundColor: "var(--color-background)",position:"relative",transition:"var(--transition-ease-out)"}}>
       
       <button onClick={() => {
                 handleAddMode();
