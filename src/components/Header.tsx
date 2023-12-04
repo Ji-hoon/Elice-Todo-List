@@ -3,13 +3,16 @@ import { useState, useRef, useEffect } from 'react';
 
 import { FiCheck, FiPlus, FiMoon, FiSun, FiHome, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from "react-icons/fi";
 
+import { useRecoilValue } from 'recoil';
+import { todoItemsAtom, filteredTodoItemsSelector, currentDateAtom } from "../components/Atoms/todoItemsAtom.ts";
+import styled from "styled-components";
+
 import format from 'date-fns/format';
 import { colors } from '../theme/color.ts';
 
 type HeaderProps = {
     handleMovePrevDate: Function;
     handleMoveNextDate: Function;
-    currentDate: Date;
     today:string;
     theme:string;
     toggleTheme:Function;
@@ -19,14 +22,13 @@ type HeaderProps = {
 export default function Header({
     handleMovePrevDate,
     handleMoveNextDate,
-    currentDate,
     today, 
     theme,
     toggleTheme, 
     handleMoveHome,
     }:HeaderProps) {
 
-
+    const currentDate = useRecoilValue(currentDateAtom);
     return (
         <header style={{display: "flex", position: "sticky", top:0, backgroundColor: "var(--color-background)", color: "var(--color-text)",gap:8, alignItems: "center", padding: 8, zIndex: 1, boxShadow: "var(--shadow-header)", transition: "var(--transition-ease-out)"}}>
           <div onClick={handleMoveHome}
@@ -50,11 +52,19 @@ export default function Header({
               style={{padding: 12, cursor:"pointer", display:"flex"}}>
             <FiChevronRight size={24}/>
           </div>
-          <div onClick={toggleTheme} 
+          <ToggleButton onClick={toggleTheme} 
               style={{padding: 12, cursor:"pointer", display:"flex"}}>
             {theme==="theme-dark" && <FiMoon size={24}/>}
             {theme==="theme-light" && <FiSun size={24}/>}
-          </div>
+          </ToggleButton>
         </header>
     )
 }
+
+const ToggleButton = styled.div`
+  & > svg {
+    color: inherit;
+    animation: var(--quarter-rotate-animation);
+    will-change: transform;
+  }
+`

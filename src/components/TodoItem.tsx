@@ -258,7 +258,7 @@ const TodoInput = styled.input`
     border: none; 
     border-bottom: 1px solid transparent;
     outline: none;
-    padding-left: 0.75em;
+    padding: 0 0.75em;
     color: var(--color-text);
     height:52px;
 
