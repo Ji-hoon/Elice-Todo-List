@@ -1,6 +1,6 @@
 
 import { atom, selector } from "recoil";
-import { TodoItemType, FilterType } from "../../types/index.ts";
+import { TodoItemType } from "../../types/index.ts";
 
 export const todoItemsAtom = atom<TodoItemType[]>({
     key: "todoItemsAtom",
@@ -22,7 +22,7 @@ export const todoItemsProgressPercentageSelector = selector ({
     }
 })
 
-export const filterAtom = atom<FilterType>({
+export const filterAtom = atom({
     key: "fitlerAtom",
     default : "all",
 })

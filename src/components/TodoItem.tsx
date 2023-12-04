@@ -1,10 +1,11 @@
-import { useState, useRef, useEffect } from 'react';
-import { FiCheck, FiTrash2, FiPlus, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from "react-icons/fi";
+import { useState,  } from 'react';
+import { FiCheck, FiTrash2,  } from "react-icons/fi";
 
 import styled from "styled-components";
 import format from 'date-fns/format';
 
 import '../index.css';
+import { TodoItemType, } from "../types/index.ts";
 
 // import useTodoItems from "./pages/Main/hooks/useTodoItems.ts"
 
@@ -17,10 +18,10 @@ import Spacing from "./Spacing.tsx";
 
 type TodoItemProps = {
     itemType: string;
-    itemInfo: Object;
-    onResetInputMode:Function;
-    onRefreshTodo : Function;
-    onEditTodo: Function;
+    itemInfo: TodoItemType;
+    onResetInputMode: () => void;
+    onRefreshTodo : () => void;
+    onEditTodo: () => void;
     currentDate: Date;
     contentValue: string;
     theme:string;
@@ -61,52 +62,62 @@ export default function TodoItem({
 
     function onAddTodoItem() {
         // todoItems에 추가하고 인풋모드를 리셋한다.
-        const newTodo = JSON.parse(localStorage.getItem('todoData'));
-    
+        const localTodoData = localStorage.getItem('todoData');
+        if(localTodoData!=null) {
+            const newTodo = JSON.parse(localTodoData);
+            const lastId = newTodo.map( (item:TodoItemType) => parseInt(item.id))
+                .reduce((prev:number, curr:number) => prev > curr ? prev : curr, 0);
+            newTodo.push({id: String(lastId+1),
+            content : addInputValue,
+            isDone: false,
+            createdAt : format(currentDate, "yyyy-MM-dd"),
+            });
+            //setTodoItems(newTodo);
+            //console.log(newTodo);
+            localStorage.setItem('todoData', JSON.stringify(newTodo));
+            onRefreshTodo();
+        }
         // const date = new Date();
         // const year = date.getFullYear();
         // const month = ('0' + (date.getMonth() + 1)).slice(-2);
         // const day = ('0' + date.getDate()).slice(-2);
-        // const dateStr = `${year}-${month}-${day}`;
-    
-        const lastId = newTodo.map(item => parseInt(item.id))
-        .reduce((prev, curr) => prev > curr ? prev : curr, 0);
-        newTodo.push({id: String(lastId+1),
-          content : addInputValue,
-          isDone: false,
-          createdAt : format(currentDate, "yyyy-MM-dd"),
-        });
-        //setTodoItems(newTodo);
-        //console.log(newTodo);
-        localStorage.setItem('todoData', JSON.stringify(newTodo));
-        onRefreshTodo();
+        // const dateStr = `${year}-${month}-${day}`;        
     }
 
-    function onEditTodoItem(editInputValue, itemId) {
-        const newTodo = JSON.parse(localStorage.getItem('todoData'));
-        const targetItem = newTodo.filter((item) => item.id === itemId );
-        targetItem[0].content = editInputValue;
-        localStorage.setItem('todoData', JSON.stringify(newTodo));
-        onRefreshTodo();
+    function onEditTodoItem(editInputValue:string, itemId:string) {
+        const localTodoData = localStorage.getItem('todoData');
+        if(localTodoData!=null) {
+            const newTodo = JSON.parse(localTodoData);
+            const targetItem = newTodo.filter((item:TodoItemType) => item.id === itemId );
+            targetItem[0].content = editInputValue;
+            localStorage.setItem('todoData', JSON.stringify(newTodo));
+            onRefreshTodo();
+        }
     }
 
-    function onDeleteTodoItem(itemId) {
-        const newTodo = JSON.parse(localStorage.getItem('todoData'));
-        const targetItemIndex = newTodo.findIndex((item) => item.id === itemId );
-        console.log(targetItemIndex);
-        newTodo.splice(targetItemIndex, 1);
-        localStorage.setItem('todoData', JSON.stringify(newTodo));
-        onRefreshTodo();
+    function onDeleteTodoItem(itemId:string) {
+        const localTodoData = localStorage.getItem('todoData');
+        if(localTodoData!=null) {
+            const newTodo = JSON.parse(localTodoData);
+            const targetItemIndex = newTodo.findIndex((item:TodoItemType) => item.id === itemId );
+            console.log(targetItemIndex);
+            newTodo.splice(targetItemIndex, 1);
+            localStorage.setItem('todoData', JSON.stringify(newTodo));
+            onRefreshTodo();
+        }
     }
 
     const onToggleDone = (id:string) => {
         //console.log(id);
-        const newTodo = JSON.parse(localStorage.getItem('todoData'));
-        const targetItem = newTodo.filter((item) => item.id === id );
-        //console.log(targetItem);
-        targetItem[0].isDone = !targetItem[0].isDone;
-        localStorage.setItem('todoData', JSON.stringify(newTodo));
-        onRefreshTodo();
+        const localTodoData = localStorage.getItem('todoData');
+        if(localTodoData!=null) {
+            const newTodo = JSON.parse(localTodoData);
+            const targetItem = newTodo.filter((item:TodoItemType) => item.id === id );
+            //console.log(targetItem);
+            targetItem[0].isDone = !targetItem[0].isDone;
+            localStorage.setItem('todoData', JSON.stringify(newTodo));
+            onRefreshTodo();
+        }
     }
     
     return(
@@ -161,7 +172,7 @@ export default function TodoItem({
                                         alert("1글자 이상 입력해주세요.");
                                         return;
                                     }
-                                    onEditTodoItem(editInputValue, itemInfo.todo.id);
+                                    onEditTodoItem(editInputValue, itemInfo.id);
                                     onResetInputMode();
                                 }else if(e.key === "Escape") {
                                     onResetInputMode();
@@ -179,13 +190,13 @@ export default function TodoItem({
                             alert("1글자 이상 입력해주세요.");
                             return;
                         }
-                        onEditTodoItem(editInputValue, itemInfo.todo.id);
+                        onEditTodoItem(editInputValue, itemInfo.id);
                         onResetInputMode();}}
                         style={{border:"none", background:"var(--color-primary)", color: "var(--color-gray-3)", borderRadius: 30, fontWeight: 700, fontSize: "1.05em",  cursor:"pointer", padding: "5px 13px 4px"}}>
                         수정</button>
                     <div style={{flexGrow:1}}></div>
                     <button 
-                    onClick={() => { onDeleteTodoItem(itemInfo.todo.id); }}
+                    onClick={() => { onDeleteTodoItem(itemInfo.id); }}
                             style={theme === "theme-dark" 
                             ? {display:"flex", alignItems:"center", gap:4, border: "2px solid var(--color-background)",background:"var(--color-gray-2)", color: "var(--color-text)", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px 11px"}
                             : {display:"flex", alignItems:"center", gap:4, border: "2px solid var(--color-background)",background:"var(--color-gray-0)", color: "var(--color-text)", borderRadius: 30, fontWeight: 700, fontSize: "1.05em", cursor:"pointer", padding: "5px 13px 4px 11px"}}>
@@ -197,12 +208,12 @@ export default function TodoItem({
             </>)}
 
             {itemType==="default" && (
-                <TodoListItem theme={theme} onClick={onEditTodo}  title={itemInfo.todo.content}>
+                <TodoListItem theme={theme} onClick={onEditTodo}  title={itemInfo.content}>
                     <Content 
-                            isDone={itemInfo.todo.isDone}>{itemInfo.todo.content}</Content>
+                            isDone={itemInfo.isDone}>{itemInfo.content}</Content>
                     <DoneButton style={{padding: 12, cursor:"pointer", display:"flex"}}
-                                isDone={itemInfo.todo.isDone} 
-                                onClick={()=> onToggleDone(itemInfo.todo.id)}>
+                                isDone={itemInfo.isDone} 
+                                onClick={()=> onToggleDone(itemInfo.id)}>
                         <FiCheck size={26} strokeWidth={3} />
                     </DoneButton>
                 </TodoListItem>

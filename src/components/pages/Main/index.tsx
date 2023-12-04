@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import '../../../index.css';
 
-import { FiCheck, FiPlus, FiCoffee, FiLoader, FiSmile, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from "react-icons/fi";
+import { FiPlus, FiCoffee } from "react-icons/fi";
 import todoItemsDummy from '../../../assets/dummy/todoItems.ts';
 import format from 'date-fns/format';
 import addDays from 'date-fns/addDays';
@@ -13,7 +13,6 @@ import Header from "../../Header.tsx";
 import TodoItemsListHeader from "./TodoItemsRate/index.tsx";
 import SelectFilter from "./SelectFilter/index.tsx";
 
-import styled from "styled-components";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { todoItemsAtom, filteredTodoItemsSelector, currentDateAtom } from "../../Atoms/todoItemsAtom.ts";
 
@@ -28,7 +27,7 @@ export default function Main() {
 
   // const [todoItems, setTodoItems] = useRecoilState(todoItemsAtom);
   const setTodoItems = useSetRecoilState(todoItemsAtom);
-  const filteredTodoItems = useRecoilValue(filteredTodoItemsSelector)
+  const filteredTodoItems: TodoItemType[] | undefined = useRecoilValue(filteredTodoItemsSelector)
   // filteredTodoItems에는 아래를 참고해서 필터된 밸류를 할당하고, 기존 todoItems를 바꾼다.
   // const percentage = useRecoilValue(todoItemsProgressPercentageSelector);
 
@@ -37,13 +36,13 @@ export default function Main() {
   
   const [inputMode, setInputMode] = useState<InputMode>(defaultInputMode);
 
-  const [isListOverflow, setIsListOverflow] = useState<boolean>(false);
+  //const [isListOverflow, setIsListOverflow] = useState<boolean>(false);
 
   const elementRef = useRef(null);
   //console.log(currentDate);
   const todoItemListRef = useRef(null);
   const mainRef = useRef(null);
-  const addInputElementRef = useRef(null);
+  //const addInputElementRef = useRef(null);
   
   const [theme, setTheme] = useState("theme-dark");
 
@@ -52,6 +51,7 @@ export default function Main() {
   }
 
   function handleEditMode(item: TodoItemType) {
+    console.log(editInputValue);
     setInputMode({ type: "edit", item : item});
     setEditInputValue(item.content);
   }
@@ -81,38 +81,42 @@ export default function Main() {
     console.log(theme);
   }
 
-  const scrollToTop = ():void => {
-    const element = elementRef.current;
-    if (element) {
-      element.scrollTo({top:900, behavior:"smooth"});
-    }
-  };
+  // const scrollToTop = ():void => {
+  //   const element = elementRef.current;
+  //   if (element) {
+  //     element.scrollTo({top:900, behavior:"smooth"});
+  //   }
+  // };
 
-  const calcListOverflowed = ():boolean => {
-    const containerHeight = todoItemListRef.current.getBoundingClientRect().height;
-    const appHeight = mainRef.current.clientHeight - 67;
-    console.log(appHeight, containerHeight);
+  // const calcListOverflowed = ():boolean => {
+  //   const containerHeight = todoItemListRef.current.getBoundingClientRect().height;
+  //   const appHeight = mainRef.current.clientHeight - 67;
+  //   console.log(appHeight, containerHeight);
     
-    if(appHeight < containerHeight) {
-      setIsListOverflow(true);
-      console.log(isListOverflow);
-      return true;
-    }
-    else {
-      setIsListOverflow(false);
-      console.log(isListOverflow);
-      return false;
-    }
-  }
+  //   if(appHeight < containerHeight) {
+  //     setIsListOverflow(true);
+  //     console.log(isListOverflow);
+  //     return true;
+  //   }
+  //   else {
+  //     setIsListOverflow(false);
+  //     console.log(isListOverflow);
+  //     return false;
+  //   }
+  // }
 
   function onRefreshTodo() {
 
     const dateString = format(currentDate, 'yyyy-MM-dd'); // date type을 스트링으로 바꿔서 비교해야 함
     //console.log(dateString);
-    const localTodoData = JSON.parse(localStorage.getItem('todoData'));
-    const todayTodo = localTodoData.filter( (item) => item.createdAt === dateString);
-    //console.log(todayTodo);
-    setTodoItems(todayTodo);
+    const localStorageItem = localStorage.getItem('todoData');
+
+    if(localStorageItem != null) {
+      const localTodoData = JSON.parse(localStorageItem);
+      const todayTodo = localTodoData.filter( (item:TodoItemType) => item.createdAt === dateString);
+      //console.log(todayTodo);
+      setTodoItems(todayTodo);
+    }
   }
 
   // init
@@ -140,7 +144,7 @@ export default function Main() {
       <button onClick={() => {
                 handleAddMode();
                 setTimeout(() => {
-                  scrollToTop();
+                  //scrollToTop();
                 },200);
               }}
             style={{borderRadius: 30, backgroundColor: "var(--color-primary)", color: "var(--color-dark)", top: "calc(100% - 70px)", left: "calc(100% - 70px)", display: "flex", position: "absolute",
@@ -155,7 +159,7 @@ export default function Main() {
                 handleMoveNextDate={() => handleMoveNextDate()}
                 theme={theme}
                 toggleTheme={toggleTheme} 
-                handleMoveHome ={true}
+                handleMoveHome ={()=> console.log("move to home")}
                 today={today}/>
                
         <div className="todoItemList" ref={todoItemListRef} 
@@ -167,7 +171,7 @@ export default function Main() {
             <SelectFilter theme={theme} />
           </div>
 
-          {filteredTodoItems.length > 0 && [...filteredTodoItems].map( (todo) =>  {
+          {(filteredTodoItems != undefined && filteredTodoItems.length > 0) && [...filteredTodoItems].map( (todo:TodoItemType) =>  {
             const isEditMode = // 렌더링 컨디션 지정을 위한 변수 
                   inputMode.type === "edit" && inputMode.item === todo;
             return (
@@ -179,7 +183,7 @@ export default function Main() {
                               onEditTodo={()=> {}}
                               onResetInputMode={handleResetInputMode} 
                               onRefreshTodo={onRefreshTodo} 
-                              itemInfo={{todo}}
+                              itemInfo={todo}
                               theme={theme}
                               currentDate={currentDate}/>
 
@@ -191,7 +195,7 @@ export default function Main() {
                               onEditTodo={()=> handleEditMode(todo)}
                               onResetInputMode={handleResetInputMode} 
                               onRefreshTodo={onRefreshTodo} 
-                              itemInfo={{todo}}
+                              itemInfo={todo}
                               theme={theme}
                               currentDate={currentDate}/>
                 )}
@@ -200,25 +204,25 @@ export default function Main() {
             })
           }
 
-          {inputMode.type === "add" && (
+          {filteredTodoItems != undefined && inputMode.type === "add" && (
             <TodoItem itemType="add" 
                       contentValue={""} 
-                      onEditTodo={()=> {}}
+                      onEditTodo={()=> console.log("Edit")}
                       onResetInputMode={handleResetInputMode}
                       onRefreshTodo={onRefreshTodo} 
-                      itemInfo={{}}
+                      itemInfo={filteredTodoItems[0]}
                       theme={theme}
                       currentDate={currentDate}/>
           )}
           
-          { isListOverflow &&  (
+          {/* { isListOverflow &&  (
             <div style={{display:"flex", justifyContent:"center", width:"fit-content", margin: "2em 0 0", cursor:"pointer"}}
                  onClick={scrollToTop}>
                 <FiArrowUpCircle color="#505050" size="36"/>
             </div>
-          )}
+          )} */}
 
-          {(filteredTodoItems.length == 0 && inputMode.type !== "add") && (
+          {(filteredTodoItems != undefined && filteredTodoItems.length == 0 && inputMode.type !== "add") && (
             <div style={{height:"calc(100vh - 7em)", display:"flex", alignItems:"center", userSelect: "none", textAlign:"center",
             flexDirection: "column", justifyContent: "center", gap: 24, color: "var(--color-text)",fontSize:"1.2em",opacity:"0.5"}}>
                 <FiCoffee size="48" color=""/>

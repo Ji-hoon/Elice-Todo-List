@@ -1,22 +1,20 @@
 
-import { useState, useRef, useEffect } from 'react';
 
-import { FiCheck, FiPlus, FiMoon, FiSun, FiHome, FiChevronLeft, FiChevronRight, FiArrowUpCircle } from "react-icons/fi";
+import {  FiMoon, FiSun, FiHome, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 import { useRecoilValue } from 'recoil';
-import { todoItemsAtom, filteredTodoItemsSelector, currentDateAtom } from "../components/Atoms/todoItemsAtom.ts";
+import { currentDateAtom } from "../components/Atoms/todoItemsAtom.ts";
 import styled from "styled-components";
 
 import format from 'date-fns/format';
-import { colors } from '../theme/color.ts';
 
 type HeaderProps = {
-    handleMovePrevDate: Function;
-    handleMoveNextDate: Function;
+    handleMovePrevDate: React.MouseEventHandler;
+    handleMoveNextDate: React.MouseEventHandler;
     today:string;
     theme:string;
-    toggleTheme:Function;
-    handleMoveHome: Function;
+    toggleTheme:React.MouseEventHandler;
+    handleMoveHome: React.MouseEventHandler;
 }
 
 export default function Header({
