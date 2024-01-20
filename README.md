@@ -1,6 +1,6 @@
 # Elice Todo List
 
-![최종 결과물 미리보기 :](/src/asset-project-preview.gif)
+![최종 결과물 미리보기 :](/src/assets/asset-project-preview.gif)
 
 ## 안녕하세요! 👋
 
