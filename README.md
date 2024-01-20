@@ -17,7 +17,7 @@
 
 1. **로컬 스토리지**를 활용하여 할 일 데이터 저장 및 수정, 불러오기, 삭제 기능 (CRUD) 구현
 2. **Recoil**을 활용하여 전역 상태 (할 일 아이템, 필터, 날짜 및 완료율)관리 구현
-3. **state 훅**을 활용하여 테마 변경 기능 구현 ([개발 블로그 링크](https://ji-hoon.github.io/blog/implement-theme-switcher-with-css-state-hook){:target="_blank"})
+3. **state 훅**을 활용하여 테마 변경 기능 구현 ([개발 블로그 링크](https://ji-hoon.github.io/blog/implement-theme-switcher-with-css-state-hook))
 
 ## 마치며
 
